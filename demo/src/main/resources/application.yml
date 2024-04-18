@@ -6,6 +6,10 @@ spring:
     username: sa
     password:
 
+  sql:
+    init:
+      mode: always
+
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
   configuration:
