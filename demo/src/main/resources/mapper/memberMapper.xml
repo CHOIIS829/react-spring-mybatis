@@ -7,10 +7,10 @@
         VALUES (#{email}, #{password}, #{name})
     </insert>
 
-    <select id="findMember" parameterType="java.lang.Long" resultType="com.example.projectx.member.vo.Member">
+    <select id="findMember" parameterType="java.lang.String" resultType="com.example.projectx.member.vo.Member">
         SELECT *
         FROM MEMBER
-        WHERE ID = #{id}
+        WHERE EMAIL = #{email}
     </select>
 
     <select id="findAllMembers" resultType="com.example.projectx.member.vo.Member">

@@ -16,8 +16,8 @@ public class MemberService {
         return memberMapper.insertMember(member);
     }
 
-    public Member findMember(Long id) {
-        return memberMapper.findMember(id);
+    public Member findMember(String email) {
+        return memberMapper.findMember(email);
     }
 
     public ArrayList<Member> findAllMembers() {

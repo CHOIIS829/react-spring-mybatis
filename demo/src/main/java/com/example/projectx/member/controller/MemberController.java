@@ -16,15 +16,17 @@ public class MemberController {
 
     @PostMapping("/api/member")
     public int insertMember(@RequestBody Member member) {
+        System.out.println(member);
         return memberService.insertMember(member);
     }
 
-    @GetMapping("/api/member/{id}")
-    public Member findMember(@Param("id") Long id) {
-        return memberService.findMember(id);
+    @GetMapping("/api/member")
+    public Member findMember(@RequestParam("email") String email) {
+        System.out.println(email);
+        return memberService.findMember(email);
     }
 
-    @GetMapping("/api/member")
+    @GetMapping("/api/members")
     public ArrayList<Member> findAllMembers() {
         return memberService.findAllMembers();
     }
