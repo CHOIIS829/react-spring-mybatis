@@ -9,6 +9,6 @@ import java.util.ArrayList;
 public interface MemberMapper {
 
     int insertMember(Member member);
-    Member findMember(Long id);
+    Member findMember(String email);
     ArrayList<Member> findAllMembers();
 }
