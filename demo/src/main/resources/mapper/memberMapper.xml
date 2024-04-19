@@ -19,7 +19,7 @@
     </select>
 
     <select id="login" parameterType="java.util.Map" resultType="com.example.projectx.member.vo.Member">
-        SELECT *
+        SELECT ID, EMAIL, NAME
         FROM MEMBER
         WHERE EMAIL = #{email} AND PASSWORD = #{password}
     </select>
