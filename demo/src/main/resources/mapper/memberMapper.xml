@@ -17,4 +17,11 @@
         SELECT *
         FROM MEMBER
     </select>
+
+    <select id="login" parameterType="java.util.Map" resultType="com.example.projectx.member.vo.Member">
+        SELECT *
+        FROM MEMBER
+        WHERE EMAIL = #{email} AND PASSWORD = #{password}
+    </select>
+
 </mapper>
