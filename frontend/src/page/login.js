@@ -74,8 +74,13 @@ export const Login = () =>{
     }
 
     const handleSignIn = async() => {
-        //memberApi.memberLogin("admin@gmail.com");
-        memberApi.memberGet();
+        const data = {
+            id : 1,
+            email : email,
+            password : pwd,
+            name : "admin"
+        }
+        memberApi.memberLogin(data);
     }
 
     return(
