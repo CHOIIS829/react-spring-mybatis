@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:3000")
 public class MemberController {
 
     private final MemberService memberService;

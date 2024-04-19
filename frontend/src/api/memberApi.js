@@ -4,10 +4,15 @@ const server = "http://localhost:8080"
 
 export const memberApi = {
     memberLogin : async(email) =>{
-        return await axios.get(server + '/api/member/', {
+        return await axios.get(server + '/api/member', {
             params:{
                 email : email
             }
-        })
+        }).then((response)=>{console.log(response)})
+    },
+    memberGet : async()=>{
+        return await axios.get(server + '/api/members')
+        .then((response)=>{console.log(response)})
+        .catch((error) => console.log(error));
     }
 }

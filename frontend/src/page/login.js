@@ -73,14 +73,9 @@ export const Login = () =>{
         setPwd(e.target.value);
     }
 
-    const handleSignIn = () => {
-        // const memberData = [
-        //     {
-        //         "email" : email,
-        //         "password" : pwd
-        //     }
-        // ]
-        console.log(memberApi.memberLogin("admin@gmail.com"));
+    const handleSignIn = async() => {
+        //memberApi.memberLogin("admin@gmail.com");
+        memberApi.memberGet();
     }
 
     return(
