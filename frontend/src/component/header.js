@@ -47,9 +47,8 @@ export const Header = () => {
                 )
             }
             </NaviContainer>
-        
             <LoginContainer>
-                <p onClick={handleLogin}>Log in</p>
+                <p onClick={handleLogin}>Log in</p> | 
                 <p>Sign Up</p>
             </LoginContainer>
         </HeaderContainer>
@@ -78,11 +77,3 @@ const navi = [
         url : "/menu4"
     }
 ]
-
-
-
-
-
-const naviData = {
-    
-}

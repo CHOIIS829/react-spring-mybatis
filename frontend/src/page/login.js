@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Container } from "../style/common";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { memberApi } from "../api/memberApi";
 
 const LoginContainer = styled.div`
     border: 2px solid black;
@@ -47,6 +49,13 @@ const UtilContainer = styled.div`
 
 export const Login = () =>{
     const naviagate = useNavigate();
+    const [email, setEmail] = useState();
+    const [pwd, setPwd] = useState();
+    const inputRef = useRef(null);
+
+    useEffect(()=>{
+        inputRef.current.focus();
+    },[]);
 
     const backToMain = () => {
         naviagate("/");
@@ -56,13 +65,31 @@ export const Login = () =>{
         naviagate(url);
     }
 
+    const handleEmail = (e) =>{
+        setEmail(e.target.value);
+    }
+
+    const handelPwd = (e) =>{
+        setPwd(e.target.value);
+    }
+
+    const handleSignIn = () => {
+        // const memberData = [
+        //     {
+        //         "email" : email,
+        //         "password" : pwd
+        //     }
+        // ]
+        console.log(memberApi.memberLogin("admin@gmail.com"));
+    }
+
     return(
         <Container>
             <LoginContainer>
                 <h1 onClick={backToMain}>project<span style={{color:'#F26F23', fontSize:'35px'}}>X</span></h1>
-                <input placeholder="이메일"/>
-                <input placeholder="비밀번호"/>
-                <button>로그인</button>
+                <input placeholder="이메일" ref={inputRef} onChange={handleEmail}/>
+                <input placeholder="비밀번호" onChange={handelPwd} type="password"/>
+                <button onClick={handleSignIn}>로그인</button>
                 <UtilContainer>
                     {
                         navi.map((navi)=>
