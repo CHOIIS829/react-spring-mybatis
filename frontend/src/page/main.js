@@ -1,9 +1,12 @@
 import { Container } from "../style/common";
+import Slider from "../util/slider";
 
 export const Main = () =>{
+    const img = [1,2,3];
     return(
         <Container>
-            <h1>this is main</h1>
+            <Slider slides={img}/>
+                
         </Container>
     );
 }

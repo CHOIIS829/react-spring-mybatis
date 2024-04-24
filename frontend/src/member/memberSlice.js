@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { memberApi } from "../api/memberApi";
+import axios from "axios";
 
-export const MemberSlice = createSlice({
+export const MemberReducer = createSlice({
   name: "member",
   initialState: {
     data: null,
@@ -11,18 +11,6 @@ export const MemberSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchMember.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchMember.fulfilled, (state, action) => {
-        state.loading = false;
-        state.data = action.payload;
-      })
-      .addCase(fetchMember.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
       .addCase(memberLogin.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -38,14 +26,12 @@ export const MemberSlice = createSlice({
   },
 });
 
-export const fetchMember = createAsyncThunk("testing", async () => {
-  const response = memberApi.memberGet();
-  console.log(response);
+const server = "http://localhost:8080"
+
+
+export const memberLogin = createAsyncThunk("login",  async(data) => {
+  const response = await axios.post(server + '/api/member/login', data)
+  return response;
 });
 
-export const memberLogin = createAsyncThunk("login",  (data) => {
-  const response = memberApi.memberLogin(data);
-  console.log(response);
-});
-
-export default MemberSlice.reducer;
+export default MemberReducer.reducer;

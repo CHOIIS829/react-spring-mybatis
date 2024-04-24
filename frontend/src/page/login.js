@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Container } from "../style/common";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {memberLogin} from '../member/memberSlice'
 import { Modal } from "../util/modal";
 
@@ -54,6 +54,7 @@ export const Login = () =>{
     const [email, setEmail] = useState();
     const [pwd, setPwd] = useState();
     const [openModal, setOpenModal] = useState(false);
+    const [children, setChildren] = useState("");
     const inputRef = useRef(null);
     const dispatch = useDispatch();
 
@@ -74,16 +75,18 @@ export const Login = () =>{
     }
 
     const handleSignIn = () => {
-        try {
-            let data = {
-                email: email,
-                password: pwd
+        
+        if(email && pwd ){
+            const data = {
+                email : email,
+                password : pwd
             }
-            const response = dispatch(memberLogin(data));
-            console.log('working');
-        } catch (errors) {
+            dispatch(memberLogin(data));         
+        }else{
             setOpenModal(true);
+            setChildren("이메일 비밀번호를 입력하세요.")
         }
+
     }
     
 
@@ -104,7 +107,7 @@ export const Login = () =>{
                 </UtilContainer>
             </LoginContainer>
         </Container>
-        <Modal open={openModal} children={"회원정보 없음"} confirmType={true} confirm={()=>setOpenModal(false)}/>
+        <Modal open={openModal} children={children} confirmType={true} confirm={()=>setOpenModal(false)}/>
         </>
     );
 }
