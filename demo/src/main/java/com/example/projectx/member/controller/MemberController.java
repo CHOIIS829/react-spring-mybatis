@@ -4,6 +4,7 @@ import com.example.projectx.member.dto.LoginResponse;
 import com.example.projectx.member.service.MemberService;
 import com.example.projectx.member.vo.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

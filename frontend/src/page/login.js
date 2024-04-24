@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { Container } from "../style/common";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { memberApi } from "../api/memberApi";
+import { useDispatch } from "react-redux";
+import {memberLogin} from '../member/memberSlice'
+import { Modal } from "../util/modal";
 
 const LoginContainer = styled.div`
     border: 2px solid black;
@@ -51,15 +53,13 @@ export const Login = () =>{
     const naviagate = useNavigate();
     const [email, setEmail] = useState();
     const [pwd, setPwd] = useState();
+    const [openModal, setOpenModal] = useState(false);
     const inputRef = useRef(null);
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         inputRef.current.focus();
     },[]);
-
-    const backToMain = () => {
-        naviagate("/");
-    }
 
     const moveTo = (url) => {
         naviagate(url);
@@ -68,20 +68,30 @@ export const Login = () =>{
     const handleEmail = (e) =>{
         setEmail(e.target.value);
     }
-
+  
     const handelPwd = (e) =>{
         setPwd(e.target.value);
     }
 
-    const handleSignIn = async() => {
-        //memberApi.memberLogin("admin@gmail.com");
-        memberApi.memberGet();
+    const handleSignIn = () => {
+        try {
+            let data = {
+                email: email,
+                password: pwd
+            }
+            const response = dispatch(memberLogin(data));
+            console.log('working');
+        } catch (errors) {
+            setOpenModal(true);
+        }
     }
+    
 
     return(
+        <>
         <Container>
             <LoginContainer>
-                <h1 onClick={backToMain}>project<span style={{color:'#F26F23', fontSize:'35px'}}>X</span></h1>
+                <h1 onClick={()=>moveTo("/")}>project<span style={{color:'#F26F23', fontSize:'35px'}}>X</span></h1>
                 <input placeholder="이메일" ref={inputRef} onChange={handleEmail}/>
                 <input placeholder="비밀번호" onChange={handelPwd} type="password"/>
                 <button onClick={handleSignIn}>로그인</button>
@@ -94,6 +104,8 @@ export const Login = () =>{
                 </UtilContainer>
             </LoginContainer>
         </Container>
+        <Modal open={openModal} children={"회원정보 없음"} confirmType={true} confirm={()=>setOpenModal(false)}/>
+        </>
     );
 }
 
@@ -107,7 +119,7 @@ const navi = [
     {
         id : 2,
         name : "비밀번호 찾기",
-        url : "findpwd"
+        url : "/findpwd"
     },
     {
         id : 3,

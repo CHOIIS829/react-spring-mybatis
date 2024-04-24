@@ -3,16 +3,14 @@ import axios from "axios"
 const server = "http://localhost:8080"
 
 export const memberApi = {
-    memberLogin : async(email) =>{
-        return await axios.get(server + '/api/member', {
-            params:{
-                email : email
-            }
-        }).then((response)=>{console.log(response)})
-    },
     memberGet : async()=>{
         return await axios.get(server + '/api/members')
-        .then((response)=>{console.log(response)})
+        .then((response) => {console.log(response)})
         .catch((error) => console.log(error));
+    },
+    memberLogin : async(data)=>{
+        return await axios.post(server + '/api/member/login', data)
+        .then((response) => {})
+        .catch((error) => {});
     }
 }
