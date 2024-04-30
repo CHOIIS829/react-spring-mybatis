@@ -1,57 +1,50 @@
 package com.example.projectx.member.controller;
 
-import com.example.projectx.member.dto.LoginResponse;
-import com.example.projectx.member.service.MemberService;
-import com.example.projectx.member.vo.Member;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import com.example.projectx.common.ResponseDto;
+import com.example.projectx.member.domain.Member;
+import com.example.projectx.member.domain.dto.RequestMember;
+import com.example.projectx.member.domain.dto.ResponseMember;
+import com.example.projectx.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
+    private final passwordEncoder passwordEncoder;
 
-    @PostMapping("/api/member")
-    public int insertMember(@RequestBody Member member) {
-        System.out.println(member);
-        return memberService.insertMember(member);
-    }
+    @PostMapping("/member/signup")
+    public ResponseEntity<ResponseDto> signup(@RequestBody RequestMember requestMember){
+        try{
+            Member member = memberService.signup(requestMember);
 
-    @GetMapping("/api/member")
-    public Member findMember(@RequestParam("email") String email) {
-        System.out.println(email);
-        return memberService.findMember(email);
-    }
+            ResponseMember responseMember = ResponseMember.builder()
+                    .memberNo(member.getMemberNo())
+                    .email(member.getEmail())
+                    .memberName(member.getMemberName())
+                    .build();
 
-    @GetMapping("/api/members")
-    public ArrayList<Member> findAllMembers() {
-        return memberService.findAllMembers();
-    }
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setData(responseMember);
+            responseDto.setSuccess(true);
+            responseDto.setMessage("회원가입에 성공하였습니다.");
 
-    @PostMapping("/api/member/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody Member member){
-        String email = member.getEmail();
-        String password = member.getPassword();
+            return ResponseEntity.ok().body(responseDto);
+        } catch (Exception e) {
+            ResponseDto responseDto = new ResponseDto();
+            responseDto.setSuccess(false);
+            responseDto.setMessage("회원가입에 실패하였습니다.");
 
-        Member loginMember = memberService.login(email, password);
-        if(loginMember != null){
-            LoginResponse loginResponse = new LoginResponse();
-            loginResponse.setMember(loginMember);
-            loginResponse.setSuccess(true);
-            loginResponse.setMessage("로그인 성공");
-            return new ResponseEntity<>(loginResponse, HttpStatus.OK);
-        } else {
-            LoginResponse loginResponse = new LoginResponse();
-            loginResponse.setSuccess(false);
-            loginResponse.setMessage("이메일 또는 비밀번호가 일치하지 않습니다.");
-            return new ResponseEntity<>(loginResponse, HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.badRequest().body(responseDto);
         }
     }
 
