@@ -19,16 +19,4 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:3000")
                 .allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE");
     }
-//    @Bean
-//    public CorsFilter corsFilter(){
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.addAllowedOrigin("*"); // 모든 IP에 대해 응답 허용
-//        config.setAllowCredentials(true); // 쿠키 사용 허용
-//        config.addAllowedMethod("*"); // 모든 메소드 허용
-//        config.addAllowedHeader("*"); // 모든 헤더 허용
-//        source.registerCorsConfiguration("/**", config);
-//
-//        return new CorsFilter();
-//    }
 }

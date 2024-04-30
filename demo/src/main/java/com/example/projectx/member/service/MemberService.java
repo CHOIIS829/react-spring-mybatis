@@ -1,36 +1,28 @@
 package com.example.projectx.member.service;
 
-import com.example.projectx.member.mapper.MemberMapper;
-import com.example.projectx.member.vo.Member;
+
+import com.example.projectx.member.domain.Member;
+import com.example.projectx.member.domain.dto.RequestMember;
+import com.example.projectx.member.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-    private final MemberMapper memberMapper;
 
-    public int insertMember(Member member) {
-        return memberMapper.insertMember(member);
-    }
+    private final MemberRepository memberRepository;
 
-    public Member findMember(String email) {
-        return memberMapper.findMember(email);
-    }
+    @Transactional
+    public Member signup(RequestMember requestMember) {
 
-    public ArrayList<Member> findAllMembers() {
-        return memberMapper.findAllMembers();
-    }
+        Member member = Member.builder()
+                .email(requestMember.getEmail())
+                .memberPwd(requestMember.getMemberPwd())
+                .memberName(requestMember.getMemberName())
+                .build();
 
-    public Member login(String email, String password) {
-        Map<String, String> loginInfo = new HashMap<>();
-        loginInfo.put("email", email);
-        loginInfo.put("password", password);
-
-        return memberMapper.login(loginInfo);
+        return memberRepository.save(member);
     }
 }
