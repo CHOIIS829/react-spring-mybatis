@@ -4,13 +4,7 @@ import { Header } from "./component/header";
 import { Login } from "./page/login";
 import { Sidebar } from "./component/sidebar";
 import { useState } from "react";
-import styled from "styled-components";
 
-const Container = styled.div`
-    display: flex;
-    width: auto;
-    height: auto;
-`;
 export const Router = () => {
     const [sidebarIsOpen, setSidebarOpen] = useState(false);
     
@@ -24,10 +18,8 @@ export const Router = () => {
                 <Route path="/" element={
                     <>
                         <Header toggleSideBar={toggleSideBar} sidebarIsOpen={sidebarIsOpen}/>
-                        <Container>
-                            <Sidebar sidebarIsOpen={sidebarIsOpen} />
-                            <Main/>
-                        </Container>
+                        <Sidebar toggleSideBar={toggleSideBar} sidebarIsOpen={sidebarIsOpen} />
+                        <Main sidebarIsOpen={sidebarIsOpen}/>
                     </>
                 }/>
                 <Route path="/login" element={

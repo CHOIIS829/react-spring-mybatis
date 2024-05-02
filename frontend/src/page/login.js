@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { Container } from "../style/common";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {memberLogin} from '../member/memberSlice'
 import { Modal } from "../util/modal";
 
-const LoginContainer = styled.div`
+const LoginContainer = styled.form`
     border: 2px solid black;
     display: flex;
     flex-direction: column;
@@ -14,7 +14,7 @@ const LoginContainer = styled.div`
     align-items: center;
     gap: 30px;
     border-radius: 15px;
-    margin-top: 50px;
+    margin-top: 10%;
     padding: 50px;
     h1{
         cursor: pointer;
@@ -89,14 +89,13 @@ export const Login = () =>{
 
     }
     
-
     return(
         <>
         <Container>
             <LoginContainer>
                 <h1 onClick={()=>moveTo("/")}>project<span style={{color:'#F26F23', fontSize:'35px'}}>X</span></h1>
-                <input placeholder="이메일" ref={inputRef} onChange={handleEmail}/>
-                <input placeholder="비밀번호" onChange={handelPwd} type="password"/>
+                <input placeholder="이메일" ref={inputRef} onChange={handleEmail} autoComplete="username"/>
+                <input placeholder="비밀번호" type="password" onChange={handelPwd} autoComplete="current-password" />
                 <button onClick={handleSignIn}>로그인</button>
                 <UtilContainer>
                     {

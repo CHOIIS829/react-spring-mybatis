@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-// 모달창 수정 필요 animation open 시 fade effect 적용 되나 닫으면 적용 필요. 
 const ModalContainer = styled.div`
     .modal {
         display: none; 
@@ -11,7 +10,7 @@ const ModalContainer = styled.div`
         left: 0;
         z-index: 2;
         background-color: rgba(0, 0, 0, 0.6);
-        animation: modal-bgs-show 0.8s
+        animation: modal-bg-show 0.8s
     }
     .openModal {
         display: flex; 
