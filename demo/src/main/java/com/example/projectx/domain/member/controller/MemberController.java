@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/member/signup")
     public ResponseEntity<ResponseDto> signup(@RequestBody RequestMember requestMember){
