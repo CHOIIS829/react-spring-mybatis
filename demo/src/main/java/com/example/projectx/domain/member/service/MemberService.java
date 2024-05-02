@@ -1,9 +1,9 @@
-package com.example.projectx.member.service;
+package com.example.projectx.domain.member.service;
 
 
-import com.example.projectx.member.domain.Member;
-import com.example.projectx.member.domain.dto.RequestMember;
-import com.example.projectx.member.repository.MemberRepository;
+import com.example.projectx.domain.member.entity.Member;
+import com.example.projectx.domain.member.dto.RequestMember;
+import com.example.projectx.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +16,11 @@ public class MemberService {
 
     @Transactional
     public Member signup(RequestMember requestMember) {
+
+        // email 중복 체크
+        if(memberRepository.existsByEmail(requestMember.getEmail())){
+            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+        }
 
         Member member = Member.builder()
                 .email(requestMember.getEmail())

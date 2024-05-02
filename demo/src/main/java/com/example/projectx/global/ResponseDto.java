@@ -1,4 +1,4 @@
-package com.example.projectx.common;
+package com.example.projectx.global;
 
 import lombok.*;
 

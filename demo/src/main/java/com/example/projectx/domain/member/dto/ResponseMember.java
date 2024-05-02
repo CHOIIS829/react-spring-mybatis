@@ -1,9 +1,9 @@
-package com.example.projectx.member.domain.dto;
+package com.example.projectx.domain.member.dto;
 
-import com.example.projectx.member.domain.Role;
-import com.example.projectx.board.domain.Board;
-import com.example.projectx.member.domain.Career;
-import com.example.projectx.member.domain.Education;
+import com.example.projectx.domain.member.entity.Career;
+import com.example.projectx.domain.member.entity.Role;
+import com.example.projectx.domain.board.entity.Board;
+import com.example.projectx.domain.member.entity.Education;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
