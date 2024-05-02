@@ -1,9 +1,9 @@
-package com.example.projectx.member.service;
+package com.example.projectx.domain.member.service;
 
 
-import com.example.projectx.member.entity.Member;
-import com.example.projectx.member.dto.RequestMember;
-import com.example.projectx.member.repository.MemberRepository;
+import com.example.projectx.domain.member.entity.Member;
+import com.example.projectx.domain.member.dto.RequestMember;
+import com.example.projectx.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

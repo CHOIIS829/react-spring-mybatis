@@ -1,9 +1,9 @@
-package com.example.projectx.member.dto;
+package com.example.projectx.domain.member.dto;
 
-import com.example.projectx.member.entity.Role;
-import com.example.projectx.board.domain.Board;
-import com.example.projectx.member.entity.Career;
-import com.example.projectx.member.entity.Education;
+import com.example.projectx.domain.member.entity.Career;
+import com.example.projectx.domain.member.entity.Education;
+import com.example.projectx.domain.member.entity.Role;
+import com.example.projectx.domain.board.entity.Board;
 import lombok.*;
 
 import java.time.LocalDate;
