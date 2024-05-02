@@ -1,7 +1,7 @@
 package com.example.projectx.board.domain;
 
-import com.example.projectx.member.domain.Member;
-import com.example.projectx.common.BaseEntity;
+import com.example.projectx.member.entity.Member;
+import com.example.projectx.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package com.example.projectx.member.domain;
+package com.example.projectx.member.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,19 +7,25 @@ import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @ToString(exclude = "member")
 @Builder
 @Entity
-@Table(name = "CAREER")
-public class Career {
+@Table(name = "EDUCATION")
+public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CAREER_NO")
-    private Long careerNo;
+    @Column(name = "EDUCATION_NO")
+    private Long educationNo;
 
-    @Column(name = "COMPANY_NAME")
-    private String companyName;
+    @Column(name = "DEGREE")
+    private String degree;
+
+    @Column(name = "MAJOR")
+    private String major;
+
+    @Column(name = "SCHOOL_NAME")
+    private String schoolName;
 
     @Column(name = "START_DATE")
     private LocalDate startDate;
@@ -34,5 +40,4 @@ public class Career {
     public void setMember(Member member) {
         this.member = member;
     }
-
 }

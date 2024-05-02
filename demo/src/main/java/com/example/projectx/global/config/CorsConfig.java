@@ -1,4 +1,4 @@
-package com.example.projectx.config;
+package com.example.projectx.global.config;
 
 import org.apache.catalina.filters.CorsFilter;
 import org.springframework.context.annotation.Bean;
