@@ -3,9 +3,11 @@ package com.example.projectx.domain.member.service;
 
 import com.example.projectx.domain.member.entity.Member;
 import com.example.projectx.domain.member.dto.RequestMember;
+import com.example.projectx.domain.member.entity.Role;
 import com.example.projectx.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     public Member signup(RequestMember requestMember) {
@@ -24,8 +27,9 @@ public class MemberService {
 
         Member member = Member.builder()
                 .email(requestMember.getEmail())
-                .memberPwd(requestMember.getMemberPwd())
+                .memberPwd(bCryptPasswordEncoder.encode(requestMember.getMemberPwd()))
                 .memberName(requestMember.getMemberName())
+                .role(Role.USER)
                 .build();
 
         return memberRepository.save(member);

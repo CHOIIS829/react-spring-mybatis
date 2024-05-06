@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/member/signup")
+    @PostMapping("/join")
     public ResponseEntity<ResponseDto> signup(@RequestBody RequestMember requestMember){
             Member member = memberService.signup(requestMember);
 
