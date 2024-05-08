@@ -38,7 +38,7 @@ public class authController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto> login(@RequestBody RequestMember requestMember){
+    public void login(@RequestBody RequestMember requestMember){
 
 
     }
