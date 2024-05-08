@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -28,10 +27,10 @@ public class SecurityConfig {
 
         //경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth
-                //.requestMatchers("/login", "/", "/join").permitAll() // login, join, home 페이지는 누구나 접근 가능
-                .requestMatchers("/**").permitAll()
-                //.requestMatchers("/api/**").hasRole("USER")
-                //.requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/login", "/", "/join").permitAll() // login, join, home 페이지는 누구나 접근 가능
+                //.requestMatchers("/**").permitAll()
+                .requestMatchers("/api/**").hasRole("USER")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
         //세션 설정 (STATELESS)
