@@ -45,7 +45,7 @@ export const Header = ({ toggleSideBar }) => {
             <h2>project<span style={{color:'black', fontSize:'25px'}}>X</span></h2>
             <LoginContainer>
                 <p onClick={()=>navigateTo("/login")}>Log in</p> | 
-                <p>Sign Up</p>
+                <p onClick={()=>navigateTo("/signup")}>Sign Up</p>
             </LoginContainer>
         </HeaderContainer>
     );
