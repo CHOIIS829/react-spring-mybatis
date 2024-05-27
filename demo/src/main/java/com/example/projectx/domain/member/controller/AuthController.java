@@ -22,12 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 //@RequestMapping("/api")
 @RequiredArgsConstructor
-<<<<<<< HEAD:demo/src/main/java/com/example/projectx/domain/member/controller/authController.java
-@CrossOrigin("http://localhost:3000")
-public class authController {
-=======
+//@CrossOrigin("http://localhost:3000")
 public class AuthController {
->>>>>>> dd0510775005d10470ebedd2ed1b9d6a23c63b80:demo/src/main/java/com/example/projectx/domain/member/controller/AuthController.java
 
     private final MemberService memberService;
 
