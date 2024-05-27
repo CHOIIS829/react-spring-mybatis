@@ -29,7 +29,6 @@ public class SecurityConfig {
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/login", "/", "/join").permitAll() // login, join, home 페이지는 누구나 접근 가능
                 //.requestMatchers("/**").permitAll()
-                .requestMatchers("/api/**").hasRole("USER")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
