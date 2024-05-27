@@ -11,7 +11,7 @@ const SignUpContainer = styled.form`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
     border-radius: 15px;
     margin-top: 10%;
     padding: 50px;
@@ -44,11 +44,12 @@ export const SignUp = () => {
     const [openModal, setOpenModal] = useState(); 
     const [children, setChildren] = useState("");
     const [email, setEmail] = useState("");
+    const [confirmEmail, setConfirmEmail] = useState(false);
     const [password, setPassword] = useState("");
 
     useEffect(()=>{
-        setChildren("약관 동의 땡땡땡");
-        setOpenModal(true);
+        //setChildren("약관 동의 땡땡땡");
+        //setOpenModal(true);
     },[]);
 
     const moveTo = (url) => {
@@ -59,9 +60,10 @@ export const SignUp = () => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if(regex.test(e.target.value)){
+            setConfirmEmail(true);
             setEmail(e.target.value);
         }else{
-            console.log(false);
+            setConfirmEmail(false);
         }
     }
 
@@ -74,21 +76,28 @@ export const SignUp = () => {
         }
     }
 
-    const handleSignUp = (e) => {
+    const handleSignUp = async(e) => {
         e.preventDefault();
+
         const data = {
             email: email,
             memberPwd: password,
             memberName: "test"
         };
-        try {
-            console.log("Sign-up data:", data);
-            const response = MemberApi.signUp(data);
-            console.log("API response:", response);
-            // Handle successful response, e.g., navigate to another page, show success message, etc.
-        } catch (error) {
-            console.error("Error in handleSignUp:", error);
-            // Handle error, e.g., show error message to the user
+        if(confirmEmail){
+            try {
+                const response = await MemberApi.signUp(data);
+                if(response.status === 200){
+                    setOpenModal(true);
+                    setChildren(response.data.message);
+                }
+            } catch (error) {
+                setOpenModal(true);
+                setChildren(error.response.data.message);
+            }
+        }else{
+            setOpenModal(true);
+            setChildren("기재하삼.");
         }
     }; 
 
@@ -97,7 +106,10 @@ export const SignUp = () => {
             <SignUpContainer>
                 <h1 onClick={()=>moveTo("/")}>project<span style={{color:'#F26F23', fontSize:'35px'}}>X</span></h1>
                 <input placeholder="이메일 을 입력하세요." autoComplete="username" onChange={(e)=>handleEmail(e)}/>
+                {console.log(email.length)}
                 <input placeholder="비밀번호" type="password" autoComplete="current-password" onChange={(e)=>handlePassword(e)}/>
+                <input placeholder="비밀번호 확인" type="password" autoComplete="current-password" onChange={(e)=>handlePassword(e)}/>
+                <input placeholder="이름 을 입력하세요." autoComplete="name"/>
                 <button onClick={(e)=>handleSignUp(e)}>회원가입</button>
             </SignUpContainer>
             <Modal 

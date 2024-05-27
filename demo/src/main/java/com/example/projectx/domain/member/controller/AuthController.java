@@ -6,15 +6,10 @@ import com.example.projectx.domain.member.dto.ResponseMember;
 import com.example.projectx.domain.member.entity.Member;
 import com.example.projectx.domain.member.service.MemberService;
 import com.example.projectx.global.ResponseDto;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD:demo/src/main/java/com/example/projectx/domain/member/controller/authController.java
 import org.springframework.web.bind.annotation.CrossOrigin;
-=======
 import org.springframework.web.bind.annotation.GetMapping;
->>>>>>> dd0510775005d10470ebedd2ed1b9d6a23c63b80:demo/src/main/java/com/example/projectx/domain/member/controller/AuthController.java
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,12 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 //@RequestMapping("/api")
 @RequiredArgsConstructor
-<<<<<<< HEAD:demo/src/main/java/com/example/projectx/domain/member/controller/authController.java
 @CrossOrigin("http://localhost:3000")
-public class authController {
-=======
 public class AuthController {
->>>>>>> dd0510775005d10470ebedd2ed1b9d6a23c63b80:demo/src/main/java/com/example/projectx/domain/member/controller/AuthController.java
 
     private final MemberService memberService;
 
