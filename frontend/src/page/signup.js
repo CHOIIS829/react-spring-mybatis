@@ -58,10 +58,9 @@ export const SignUp = () => {
     
     const handleEmail = (e) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+        setEmail(e.target.value);
         if(regex.test(e.target.value)){
             setConfirmEmail(true);
-            setEmail(e.target.value);
         }else{
             setConfirmEmail(false);
         }
