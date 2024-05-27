@@ -7,7 +7,9 @@ import com.example.projectx.domain.member.entity.Member;
 import com.example.projectx.domain.member.service.MemberService;
 import com.example.projectx.global.ResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 //@RequestMapping("/api")
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:3000")
 public class authController {
 
     private final MemberService memberService;
@@ -22,7 +25,6 @@ public class authController {
     @PostMapping("/join")
     public ResponseEntity<ResponseDto> signup(@RequestBody RequestMember requestMember){
             Member member = memberService.signup(requestMember);
-
             ResponseMember responseMember = ResponseMember.builder()
                     .memberNo(member.getMemberNo())
                     .email(member.getEmail())

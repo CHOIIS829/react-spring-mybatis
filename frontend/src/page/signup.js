@@ -3,6 +3,7 @@ import {Container} from '../style/common'
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { Modal } from '../util/modal';
+import { MemberApi } from '../api/memberApi';
 
 const SignUpContainer = styled.form`
     border: 2px solid black;
@@ -40,28 +41,64 @@ const SignUpContainer = styled.form`
 
 export const SignUp = () => {
     const navigate = useNavigate();
-    const [openModal, setOpenModal] = useState(true); 
+    const [openModal, setOpenModal] = useState(); 
     const [children, setChildren] = useState("");
     const [email, setEmail] = useState("");
-    const [pwd, setPwd] = useState("");
+    const [password, setPassword] = useState("");
 
     useEffect(()=>{
+        setChildren("약관 동의 땡땡땡");
+        setOpenModal(true);
     },[]);
 
     const moveTo = (url) => {
         navigate(url);
+    } 
+    
+    const handleEmail = (e) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if(regex.test(e.target.value)){
+            setEmail(e.target.value);
+        }else{
+            console.log(false);
+        }
     }
 
-    const handleSignUp = () => {
-    }   
+    const handlePassword = (e) => {
+        const regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
+        if(regex.test(e.target.value)){
+            setPassword(e.target.value);
+        }else{
+            console.log(false)
+        }
+    }
+
+    const handleSignUp = (e) => {
+        e.preventDefault();
+        const data = {
+            email: email,
+            memberPwd: password,
+            memberName: "test"
+        };
+        try {
+            console.log("Sign-up data:", data);
+            const response = MemberApi.signUp(data);
+            console.log("API response:", response);
+            // Handle successful response, e.g., navigate to another page, show success message, etc.
+        } catch (error) {
+            console.error("Error in handleSignUp:", error);
+            // Handle error, e.g., show error message to the user
+        }
+    }; 
 
     return(
         <Container>
             <SignUpContainer>
                 <h1 onClick={()=>moveTo("/")}>project<span style={{color:'#F26F23', fontSize:'35px'}}>X</span></h1>
-                <input placeholder="이메일 을 입력하세요." autoComplete="username" onChange={(e)=>setEmail(e.target.value)}/>
-                <input placeholder="비밀번호" type="password" autoComplete="current-password" onChange={(e)=>setPwd(e.target.value)}/>
-                <button onClick={handleSignUp}>회원가입</button>
+                <input placeholder="이메일 을 입력하세요." autoComplete="username" onChange={(e)=>handleEmail(e)}/>
+                <input placeholder="비밀번호" type="password" autoComplete="current-password" onChange={(e)=>handlePassword(e)}/>
+                <button onClick={(e)=>handleSignUp(e)}>회원가입</button>
             </SignUpContainer>
             <Modal 
                 open={openModal} 
