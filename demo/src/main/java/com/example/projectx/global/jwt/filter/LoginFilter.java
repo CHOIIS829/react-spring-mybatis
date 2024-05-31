@@ -71,7 +71,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter { // 용�
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access", email, role, 10*60*1000L); // 10분 유효
+        String access = jwtUtil.createJwt("access", email, role, 24*60*60*1000L); // 10분 유효
         String refresh = jwtUtil.createJwt("refresh", email, role, 24*60*60*1000L); // 24시간 유효
 
         addRefreshEntity(email, refresh, 24*60*60*1000L);
