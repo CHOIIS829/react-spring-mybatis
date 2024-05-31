@@ -77,6 +77,7 @@ public class ReissueController { // 용도 : refresh-token 재발급 컨트롤�
         return new ResponseEntity<>("access-token 재발급 완료", HttpStatus.OK);
     }
 
+    // refresh-token 추가
     private void addRefreshEntity(String email, String refresh, Long expiredMs){
         Date date = new Date(System.currentTimeMillis() + expiredMs);
         RefreshEntity refreshEntity = RefreshEntity.builder()
@@ -88,6 +89,7 @@ public class ReissueController { // 용도 : refresh-token 재발급 컨트롤�
         refreshRepository.save(refreshEntity);
     }
 
+    // 쿠키 생성
     private Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(24*60*60); // 24시간 유효

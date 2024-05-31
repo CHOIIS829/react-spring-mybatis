@@ -34,8 +34,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter { // 용�
     private final JWTUtil jwtUtil;
     private final RefreshRepository refreshRepository;
 
+    // 로그인 요청이 들어왔을 때 실행되는 메소드
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException { // 로그인 요청이 들어왔을 때 실행되는 메소드
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
         RequestMember requestMember = new RequestMember();
 
@@ -84,9 +85,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter { // 용�
     //로그인 실패시 실행하는 메소드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
+        log.info("로그인 실패");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
+    // refresh 토큰을 DB에 저장하는 메소드
     private void addRefreshEntity(String email, String refresh, Long expiredMs){
 
         Date date = new Date(System.currentTimeMillis() + expiredMs);
@@ -101,6 +104,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter { // 용�
     }
 
 
+    // 쿠키 생성 메소드
     private Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(24*60*60); // 24시간 유효
