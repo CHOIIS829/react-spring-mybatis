@@ -3,7 +3,6 @@ package com.example.projectx.domain.member.service;
 
 import com.example.projectx.domain.member.entity.Member;
 import com.example.projectx.domain.member.dto.RequestMember;
-import com.example.projectx.domain.member.entity.Role;
 import com.example.projectx.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class MemberService {
                 .email(requestMember.getEmail())
                 .memberPwd(bCryptPasswordEncoder.encode(requestMember.getMemberPwd()))
                 .memberName(requestMember.getMemberName())
-                .role(Role.USER)
+                .role("ROLE_USER")
                 .build();
 
         return memberRepository.save(member);

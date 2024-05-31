@@ -45,9 +45,8 @@ public class Member extends BaseEntity {
     @Column(name = "GIT_ADDRESS")
     private String gitAddress;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "ROLE")
-    private Role role;
+    private String role;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Education> educations = new ArrayList<>();
