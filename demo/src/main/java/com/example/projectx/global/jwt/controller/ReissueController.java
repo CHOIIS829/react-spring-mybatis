@@ -44,6 +44,10 @@ public class ReissueController { // 용도 : refresh-token 재발급 컨트롤�
         try{
             jwtUtil.isExpired(refresh);
         } catch (ExpiredJwtException e){
+
+            // refresh-token이 만료된 경우 DB에서 삭제
+            refreshRepository.deleteByRefresh(refresh);
+
             return new ResponseEntity<>("refresh-token이 만료되었습니다.", HttpStatus.BAD_REQUEST);
         }
 

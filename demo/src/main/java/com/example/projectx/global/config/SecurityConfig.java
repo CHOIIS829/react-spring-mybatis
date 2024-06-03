@@ -75,6 +75,7 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/", "/join").permitAll() // 로그인, 회원가입 페이지는 모두 접근 가능
                         .requestMatchers("/admin").hasRole("ADMIN") // admin 페이지는 ADMIN 권한이 있어야 접근 가능
                         .requestMatchers("/reissue").permitAll() // reissue 페이지는 모두 접근 가능
+                        //.requestMatchers("/api/**").permitAll() // api 페이지는 모두 접근 가능
                         .anyRequest().authenticated()); // 그 외의 페이지는 인증이 필요함
 
         //  Custom Filter 추가

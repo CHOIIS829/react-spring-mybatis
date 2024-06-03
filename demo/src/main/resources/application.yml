@@ -1,6 +1,6 @@
 spring:
   datasource:
-    mapper-location: classpath:/mapper/**/*.xml
+#    mapper-location: classpath:/mapper/**/*.xml
     url: jdbc:h2:tcp://localhost/~/test
     driver-class-name: org.h2.Driver
     username: sa
@@ -8,7 +8,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     properties:
       hibernate:
         show_sql: true

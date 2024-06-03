@@ -25,7 +25,7 @@ public class RequestMember {
     private String profileImg;
     private String gitAddress;
     private String role;
-    private List<Education> educations = new ArrayList<>();
-    private List<Career> careers = new ArrayList<>();
-    private List<Board> boards = new ArrayList<>();
+    private List<RequestEducation> educations = new ArrayList<>();
+    private List<RequestCareer> careers = new ArrayList<>();
+    //private List<RequestBoard> boards = new ArrayList<>();
 }
