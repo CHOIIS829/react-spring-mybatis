@@ -9,10 +9,7 @@ import com.example.projectx.global.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -25,8 +22,15 @@ public class MemberController {
     // 개인정보 등록
     @PostMapping("/privacy")
     public ResponseEntity<ResponseDto> privacy(@RequestBody RequestMember requestMember){
-        memberService.insertPrivacy(requestMember);
+        log.info("privacy requestMember : {}", requestMember);
+        Member findMember = memberService.insertPrivacy(requestMember);
 
-        return null;
+        ResponseDto responseDto = ResponseDto.builder()
+                .data(findMember)
+                .success(true)
+                .message("개인정보 등록에 성공하였습니다.")
+                .build();
+
+        return ResponseEntity.ok().body(responseDto);
     }
 }

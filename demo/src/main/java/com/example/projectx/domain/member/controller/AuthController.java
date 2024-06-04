@@ -32,10 +32,12 @@ public class AuthController {
                 .memberName(member.getMemberName())
                 .build();
 
-        ResponseDto responseDto = new ResponseDto();
-        responseDto.setData(responseMember);
-        responseDto.setSuccess(true);
-        responseDto.setMessage("회원가입에 성공하였습니다.");
+
+        ResponseDto responseDto = ResponseDto.builder()
+                .data(responseMember)
+                .success(true)
+                .message("회원가입에 성공하였습니다.")
+                .build();
 
         return ResponseEntity.ok().body(responseDto);
     }

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString(exclude = {"educations", "careers", "boards"})
@@ -74,21 +73,10 @@ public class Member extends BaseEntity {
         board.setMember(this);
     }
 
-    // 회원정보 수정 메소드
-    public void modifyMember(
-                             String phone,
-                             LocalDate birthDate,
-                             String introduction,
-                             String profileImg,
-                             String gitAddress,
-                             List<Education> educations,
-                             List<Career> careers){
+    public void updatePrivacy(String phone, LocalDate birthDate, String introduction, String gitAddress){
         this.phone = phone;
         this.birthDate = birthDate;
         this.introduction = introduction;
-        this.profileImg = profileImg;
         this.gitAddress = gitAddress;
-        this.educations = educations;
-        this.careers = careers;
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +46,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void insertPrivacy(RequestMember requestMember) {
+    public Member insertPrivacy(RequestMember requestMember) {
 
         List<Education> educations = requestMember.getEducations().stream()
                 .map(requestEducation -> Education.builder()
@@ -65,12 +66,21 @@ public class MemberService {
                         .build())
                 .collect(Collectors.toList());
 
-        log.info("educations: {}", educations);
-        log.info("careers: {}", careers);
+        Member findMember = memberRepository.findMemberWithEducationsAndCareersByMemberNo(requestMember.getMemberNo());
 
-        // Member, Education, Career 조회
-        Member member = memberRepository.findByMemberNo(requestMember.getMemberNo());
+        if(findMember == null){
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
 
-        log.info("member: {}", member);
+        findMember.updatePrivacy(requestMember.getPhone(), requestMember.getBirthDate(), requestMember.getIntroduction(), requestMember.getGitAddress());
+
+        for(int i = 0; i < educations.size(); i++){
+            findMember.addEducation(educations.get(i));
+        }
+        for(int i = 0; i < careers.size(); i++){
+            findMember.addCareer(careers.get(i));
+        }
+
+        return findMember;
     }
 }

@@ -17,9 +17,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ResponseDto> IllegalArgumentException(IllegalArgumentException e){
-        ResponseDto responseDto = new ResponseDto();
-        responseDto.setSuccess(false);
-        responseDto.setMessage(e.getMessage());
+
+        ResponseDto responseDto = ResponseDto.builder()
+                .success(false)
+                .message(e.getMessage())
+                .build();
         return ResponseEntity.badRequest().body(responseDto);
     }
 }
