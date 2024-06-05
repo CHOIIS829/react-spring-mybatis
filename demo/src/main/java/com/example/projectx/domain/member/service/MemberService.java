@@ -4,18 +4,23 @@ package com.example.projectx.domain.member.service;
 import com.example.projectx.domain.member.dto.CareerDTO;
 import com.example.projectx.domain.member.dto.EducationDTO;
 import com.example.projectx.domain.member.dto.MemberDTO;
-import com.example.projectx.domain.member.entity.Career;
-import com.example.projectx.domain.member.entity.Education;
 import com.example.projectx.domain.member.entity.Member;
 import com.example.projectx.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +29,9 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Value("${spring.upload.path}")
+    private String uploadPath;
 
     @Transactional
     public Member signup(MemberDTO requestMember) {
@@ -66,9 +74,37 @@ public class MemberService {
         requestMember.getCareers().stream()
                 .map(CareerDTO::toEntity)
                 .forEach(findMember::addCareer);
-        
+
         Member responseMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
 
         return MemberDTO.toDTO(responseMember);
+    }
+
+    @Transactional
+    public String profile(MultipartFile file, String email) {
+        log.info("Service start");
+        try {
+            // 파일 저장
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Path filePath = Paths.get(uploadPath, fileName);
+
+            if (!Files.exists(filePath.getParent())) {
+                Files.createDirectories(filePath.getParent());
+            }
+
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            String url = "/profile-pictures/" + fileName;
+            log.info("url : {}", url);
+
+            Member member = memberRepository.findByEmail(email);
+
+            member.updateProfileImg(url);
+
+            return url;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("프로필 사진 업로드에 실패했습니다.");
+        }
     }
 }

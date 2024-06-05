@@ -80,4 +80,8 @@ public class Member extends BaseEntity {
         this.introduction = introduction;
         this.gitAddress = gitAddress;
     }
+
+    public void updateProfileImg(String profileImg){
+        this.profileImg = profileImg;
+    }
 }

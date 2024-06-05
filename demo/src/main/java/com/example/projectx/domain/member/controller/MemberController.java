@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,20 @@ public class MemberController {
                 .data(responseMember)
                 .success(true)
                 .message("개인정보 등록에 성공하였습니다.")
+                .build();
+
+        return ResponseEntity.ok().body(responseDto);
+    }
+
+    @PostMapping("/profile")
+    public ResponseEntity<ResponseDto> profile(@RequestParam MultipartFile file, @RequestParam String email){
+        log.info("file : {}, email : {}", file, email);
+        String url = memberService.profile(file, email);
+
+        ResponseDto responseDto = ResponseDto.builder()
+                .data(url)
+                .success(true)
+                .message("프로필 사진 등록에 성공하였습니다.")
                 .build();
 
         return ResponseEntity.ok().body(responseDto);

@@ -17,6 +17,9 @@ spring:
   jwt:
     secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaaaaaaaaaaaaaaabbbbb
 
+  upload:
+    path: resources/upload/profile/
+
 #  sql:
 #    init:
 #      mode: always
