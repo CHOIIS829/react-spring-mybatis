@@ -18,7 +18,7 @@ spring:
     secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaaaaaaaaaaaaaaabbbbb
 
   upload:
-    path: upload/profile/
+    path: src/main/resources/upload/profile/
 
 #  sql:
 #    init:
