@@ -1,6 +1,6 @@
 package com.example.projectx.global.jwt.filter;
 
-import com.example.projectx.domain.member.dto.RequestMember;
+import com.example.projectx.domain.member.dto.MemberDTO;
 import com.example.projectx.global.jwt.entity.RefreshEntity;
 import com.example.projectx.global.jwt.repository.RefreshRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,13 +38,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter { // Ïö©Îè
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        RequestMember requestMember = new RequestMember();
+        MemberDTO requestMember = new MemberDTO();
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             ServletInputStream inputStream = request.getInputStream();
             String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
-            requestMember = objectMapper.readValue(messageBody, RequestMember.class);
+            requestMember = objectMapper.readValue(messageBody, MemberDTO.class);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

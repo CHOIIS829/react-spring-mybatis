@@ -1,8 +1,7 @@
 package com.example.projectx.domain.member.controller;
 
 
-import com.example.projectx.domain.member.dto.RequestMember;
-import com.example.projectx.domain.member.dto.ResponseMember;
+import com.example.projectx.domain.member.dto.MemberDTO;
 import com.example.projectx.domain.member.entity.Member;
 import com.example.projectx.domain.member.service.MemberService;
 import com.example.projectx.global.ResponseDto;
@@ -21,12 +20,11 @@ public class AuthController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public ResponseEntity<ResponseDto> signup(@RequestBody RequestMember requestMember){
-
-        log.info("email: " + requestMember.getEmail());
+    public ResponseEntity<ResponseDto> signup(@RequestBody MemberDTO requestMember){
 
         Member member = memberService.signup(requestMember);
-        ResponseMember responseMember = ResponseMember.builder()
+
+        MemberDTO responseMember = MemberDTO.builder()
                 .memberNo(member.getMemberNo())
                 .email(member.getEmail())
                 .memberName(member.getMemberName())

@@ -73,6 +73,7 @@ public class Member extends BaseEntity {
         board.setMember(this);
     }
 
+    //  비즈니스 로직
     public void updatePrivacy(String phone, LocalDate birthDate, String introduction, String gitAddress){
         this.phone = phone;
         this.birthDate = birthDate;
