@@ -22,6 +22,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .success(false)
                 .message(e.getMessage())
                 .build();
+
         return ResponseEntity.badRequest().body(responseDto);
     }
 }

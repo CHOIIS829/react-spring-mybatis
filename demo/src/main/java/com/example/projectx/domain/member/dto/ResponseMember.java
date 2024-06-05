@@ -26,8 +26,8 @@ public class ResponseMember {
     private String profileImg;
     private String gitAddress;
     private String role;
-    private List<Education> educations = new ArrayList<>();
-    private List<Career> careers = new ArrayList<>();
-    private List<Board> boards = new ArrayList<>();
+    private List<ResponseEducation> educations = new ArrayList<>();
+    private List<ResponseCareer> careers = new ArrayList<>();
+    //private List<ResponseBoard> boards = new ArrayList<>();
 
 }
