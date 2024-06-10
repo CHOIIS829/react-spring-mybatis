@@ -19,6 +19,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -157,5 +160,14 @@ public class MemberService {
             e.printStackTrace();
             throw new RuntimeException("회원탈퇴에 실패했습니다.");
         }
+    }
+
+    public ArrayList<Member> members() {
+        List<Member> members = memberRepository.findMembersWithPaging(0, 10);
+
+        // members를 membersDTO로 변환
+        
+
+        return new ArrayList<>(members);
     }
 }

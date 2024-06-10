@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,20 @@ import java.util.stream.Collectors;
 public class MemberController {
 
     private final MemberService memberService;
+
+    // 회원리스트 조회
+    @GetMapping("/members")
+    public ResponseEntity<ResponseDto> members(){
+        ArrayList<Member> members = memberService.members();
+
+        ResponseDto responseDto = ResponseDto.builder()
+                .data(members)
+                .success(true)
+                .message("회원리스트 조회에 성공하였습니다.")
+                .build();
+
+        return ResponseEntity.ok().body(responseDto);
+    }
 
     // 개인정보 등록
     @PostMapping("/privacy")

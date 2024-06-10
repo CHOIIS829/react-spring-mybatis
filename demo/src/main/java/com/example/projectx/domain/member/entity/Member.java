@@ -84,4 +84,8 @@ public class Member extends BaseEntity {
     public void updateProfileImg(String profileImg){
         this.profileImg = profileImg;
     }
+
+    public void deletePwd(){
+        this.memberPwd = null;
+    }
 }
