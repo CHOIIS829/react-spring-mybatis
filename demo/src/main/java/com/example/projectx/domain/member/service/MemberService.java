@@ -82,8 +82,26 @@ public class MemberService {
 
     @Transactional
     public String profile(MultipartFile file, String email) {
-        log.info("Service start");
         try {
+            // 파일 유효성 체크
+            if (file.isEmpty()) {
+                throw new IllegalArgumentException("파일이 비어있습니다.");
+            } else if (!file.getContentType().startsWith("image")) {
+                throw new IllegalArgumentException("이미지 파일만 업로드 가능합니다.");
+            } else if (file.getSize() > 10 * 1024 * 1024) {
+                throw new IllegalArgumentException("파일 크기는 10MB를 넘을 수 없습니다.");
+            }
+
+            // 이미 저장된 파일 삭제
+            Member findmember = memberRepository.findByEmail(email);
+            String profileImg = findmember.getProfileImg();
+            if (profileImg != null) {
+                Path deletePath = Paths.get(uploadPath, profileImg.replace("/profile-pictures/", ""));
+                if (Files.exists(deletePath)) {
+                    Files.delete(deletePath);
+                }
+            }
+
             // 파일 저장
             String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
             Path filePath = Paths.get(uploadPath, fileName);
@@ -94,7 +112,7 @@ public class MemberService {
 
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            String url = "/profile-pictures/" + fileName;
+            String url = "src/main/resources/upload/profile/" + fileName;
             log.info("url : {}", url);
 
             Member member = memberRepository.findByEmail(email);
