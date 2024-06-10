@@ -122,4 +122,40 @@ public class MemberService {
             throw new RuntimeException("프로필 사진 업로드에 실패했습니다.");
         }
     }
+
+    @Transactional
+    public void deleteProfile(String email) {
+        try{
+            Member findMember = memberRepository.findByEmail(email);
+            String profileImg = findMember.getProfileImg();
+            if (profileImg != null) {
+                Path deletePath = Paths.get(uploadPath, profileImg.replace("src/main/resources/upload/profile/", ""));
+                if (Files.exists(deletePath)) {
+                    Files.delete(deletePath);
+                }
+            }
+            findMember.updateProfileImg(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("프로필 사진 삭제에 실패했습니다.");
+        }
+    }
+
+    @Transactional
+    public void deleteMember(String email) {
+        try{
+            Member findMember = memberRepository.findByEmail(email);
+            memberRepository.deleteByEmail(email);
+            String profileImg = findMember.getProfileImg();
+            if (profileImg != null) {
+                Path deletePath = Paths.get(uploadPath, profileImg.replace("src/main/resources/upload/profile/", ""));
+                if (Files.exists(deletePath)) {
+                    Files.delete(deletePath);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("회원탈퇴에 실패했습니다.");
+        }
+    }
 }

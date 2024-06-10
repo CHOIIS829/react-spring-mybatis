@@ -49,4 +49,30 @@ public class MemberController {
 
         return ResponseEntity.ok().body(responseDto);
     }
+
+    // 프로필 사진 삭제
+    @DeleteMapping("/profile")
+    public ResponseEntity<ResponseDto> deleteProfile(@RequestParam String email){
+        memberService.deleteProfile(email);
+
+        ResponseDto responseDto = ResponseDto.builder()
+                .success(true)
+                .message("프로필 사진 삭제에 성공하였습니다.")
+                .build();
+
+        return ResponseEntity.ok().body(responseDto);
+    }
+
+    // 회원탈퇴
+    @DeleteMapping("/member")
+    public ResponseEntity<ResponseDto> deleteMember(@RequestParam String email){
+        memberService.deleteMember(email);
+
+        ResponseDto responseDto = ResponseDto.builder()
+                .success(true)
+                .message("회원탈퇴에 성공하였습니다.")
+                .build();
+
+        return ResponseEntity.ok().body(responseDto);
+    }
 }

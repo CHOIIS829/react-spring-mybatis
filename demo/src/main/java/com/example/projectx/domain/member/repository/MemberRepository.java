@@ -17,4 +17,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "LEFT JOIN m.careers c " +
             "WHERE m.email = :email")
     Member findMemberWithEducationsAndCareersByEmail(@Param("email") String email);
+
+    void deleteByEmail(String email);
 }
