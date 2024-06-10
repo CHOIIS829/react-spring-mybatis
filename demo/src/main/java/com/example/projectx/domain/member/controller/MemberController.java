@@ -36,9 +36,9 @@ public class MemberController {
         return ResponseEntity.ok().body(responseDto);
     }
 
+    // 프로필 사진 등록
     @PostMapping("/profile")
     public ResponseEntity<ResponseDto> profile(@RequestParam MultipartFile file, @RequestParam String email){
-        log.info("file : {}, email : {}", file, email);
         String url = memberService.profile(file, email);
 
         ResponseDto responseDto = ResponseDto.builder()

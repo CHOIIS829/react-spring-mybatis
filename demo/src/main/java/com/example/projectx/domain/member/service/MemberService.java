@@ -96,7 +96,7 @@ public class MemberService {
             Member findmember = memberRepository.findByEmail(email);
             String profileImg = findmember.getProfileImg();
             if (profileImg != null) {
-                Path deletePath = Paths.get(uploadPath, profileImg.replace("/profile-pictures/", ""));
+                Path deletePath = Paths.get(uploadPath, profileImg.replace("src/main/resources/upload/profile/", ""));
                 if (Files.exists(deletePath)) {
                     Files.delete(deletePath);
                 }
@@ -113,11 +113,8 @@ public class MemberService {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             String url = "src/main/resources/upload/profile/" + fileName;
-            log.info("url : {}", url);
 
-            Member member = memberRepository.findByEmail(email);
-
-            member.updateProfileImg(url);
+            findmember.updateProfileImg(url);
 
             return url;
         } catch (IOException e) {
