@@ -4,6 +4,7 @@ import com.example.projectx.global.BaseEntity;
 import com.example.projectx.domain.board.entity.Board;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,9 +50,11 @@ public class Member extends BaseEntity {
     private String role;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 1000)
     private List<Education> educations = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 1000)
     private List<Career> careers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")

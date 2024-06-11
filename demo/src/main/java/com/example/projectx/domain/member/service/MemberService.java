@@ -4,12 +4,17 @@ package com.example.projectx.domain.member.service;
 import com.example.projectx.domain.member.dto.CareerDTO;
 import com.example.projectx.domain.member.dto.EducationDTO;
 import com.example.projectx.domain.member.dto.MemberDTO;
+import com.example.projectx.domain.member.dto.MemberSimpleListDTO;
 import com.example.projectx.domain.member.entity.Member;
 import com.example.projectx.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,9 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -56,21 +58,20 @@ public class MemberService {
 
     @Transactional
     public MemberDTO insertPrivacy(MemberDTO requestMember) {
-
         Member findMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
 
         if(findMember == null){
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         }
 
-        findMember.updatePrivacy(
+        findMember.updatePrivacy( // Member 엔티티의 updatePrivacy 메소드를 호출하여 회원정보 수정
                 requestMember.getPhone(),
                 requestMember.getBirthDate(),
                 requestMember.getIntroduction(),
                 requestMember.getGitAddress()
         );
 
-        requestMember.getEducations().stream()
+        requestMember.getEducations().stream() //
                 .map(EducationDTO::toEntity)
                 .forEach(findMember::addEducation);
 
@@ -79,7 +80,6 @@ public class MemberService {
                 .forEach(findMember::addCareer);
 
         Member responseMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
-
         return MemberDTO.toDTO(responseMember);
     }
 
@@ -162,12 +162,13 @@ public class MemberService {
         }
     }
 
-    public ArrayList<Member> members() {
-        List<Member> members = memberRepository.findMembersWithPaging(0, 10);
+    public Page<MemberSimpleListDTO> findMembers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "memberNo");
 
-        // members를 membersDTO로 변환
-        
+        Page<MemberSimpleListDTO> members = memberRepository.findMembers(pageable);
 
-        return new ArrayList<>(members);
+        Member member = memberRepository.findByEmail("admin@gmail.com");
+
+        return members;
     }
 }

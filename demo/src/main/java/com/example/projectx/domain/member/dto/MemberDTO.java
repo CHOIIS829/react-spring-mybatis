@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,8 @@ public class MemberDTO {
     private String profileImg;
     private String gitAddress;
     private String role;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
     private List<EducationDTO> educations = new ArrayList<>();
     private List<CareerDTO> careers = new ArrayList<>();
 
@@ -44,6 +47,8 @@ public class MemberDTO {
                 .profileImg(member.getProfileImg())
                 .gitAddress(member.getGitAddress())
                 .role(member.getRole())
+                .createAt(member.getCreateAt())
+                .updateAt(member.getUpdateAt())
                 .educations(member.getEducations().stream()
                         .map(EducationDTO::toDTO)
                         .collect(Collectors.toList()))

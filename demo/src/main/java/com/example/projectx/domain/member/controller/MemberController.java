@@ -6,6 +6,8 @@ import com.example.projectx.domain.member.service.MemberService;
 import com.example.projectx.global.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,11 +26,11 @@ public class MemberController {
 
     // 회원리스트 조회
     @GetMapping("/members")
-    public ResponseEntity<ResponseDto> members(){
-        ArrayList<Member> members = memberService.members();
+    public ResponseEntity<ResponseDto> members(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<MemberSimpleListDTO> memberDTOS = memberService.findMembers(page, size);
 
         ResponseDto responseDto = ResponseDto.builder()
-                .data(members)
+                .data(memberDTOS)
                 .success(true)
                 .message("회원리스트 조회에 성공하였습니다.")
                 .build();
