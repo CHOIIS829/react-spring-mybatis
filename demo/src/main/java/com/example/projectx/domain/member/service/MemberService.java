@@ -41,7 +41,6 @@ public class MemberService {
     @Transactional
     public Member signup(MemberDTO requestMember) {
 
-        // email 중복 체크
         if(memberRepository.existsByEmail(requestMember.getEmail())){
             throw new IllegalArgumentException("이미 가입된 이메일입니다.");
         }
@@ -58,29 +57,35 @@ public class MemberService {
 
     @Transactional
     public MemberDTO insertPrivacy(MemberDTO requestMember) {
+
         Member findMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
+        log.info("fineMember.getEducations().size() : " + findMember.getEducations().size());
+        log.info("fineMember.getCareers().size() : " + findMember.getCareers().size());
 
-        if(findMember == null){
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
-        }
+//        if(findMember == null){
+//            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+//        }
+//
+//        findMember.updatePrivacy(
+//                requestMember.getPhone(),
+//                requestMember.getBirthDate(),
+//                requestMember.getIntroduction(),
+//                requestMember.getGitAddress()
+//        );
+//
+//        requestMember.getEducations().stream() //
+//                .map(EducationDTO::toEntity)
+//                .forEach(findMember::addEducation);
+//
+//        requestMember.getCareers().stream()
+//                .map(CareerDTO::toEntity)
+//                .forEach(findMember::addCareer);
+//
+//        Member responseMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
+//        log.info("responseMember.getEducations().size() : " + responseMember.getEducations().size());
+//        log.info("responseMember.getCareers().size() : " + responseMember.getCareers().size());
 
-        findMember.updatePrivacy( // Member 엔티티의 updatePrivacy 메소드를 호출하여 회원정보 수정
-                requestMember.getPhone(),
-                requestMember.getBirthDate(),
-                requestMember.getIntroduction(),
-                requestMember.getGitAddress()
-        );
-
-        requestMember.getEducations().stream() //
-                .map(EducationDTO::toEntity)
-                .forEach(findMember::addEducation);
-
-        requestMember.getCareers().stream()
-                .map(CareerDTO::toEntity)
-                .forEach(findMember::addCareer);
-
-        Member responseMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
-        return MemberDTO.toDTO(responseMember);
+        return null;//MemberDTO.toDTO(responseMember);
     }
 
     @Transactional

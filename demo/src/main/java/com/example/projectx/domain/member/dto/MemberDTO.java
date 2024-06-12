@@ -50,10 +50,10 @@ public class MemberDTO {
                 .createAt(member.getCreateAt())
                 .updateAt(member.getUpdateAt())
                 .educations(member.getEducations().stream()
-                        .map(EducationDTO::toDTO)
+                        .map(education -> EducationDTO.toDTO(education))
                         .collect(Collectors.toList()))
                 .careers(member.getCareers().stream()
-                        .map(CareerDTO::toDTO)
+                        .map(career -> CareerDTO.toDTO(career))
                         .collect(Collectors.toList()))
                 .build();
     }
