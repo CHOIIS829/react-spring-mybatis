@@ -59,7 +59,8 @@ public class MemberService {
     @Transactional
     public MemberDTO insertPrivacy(MemberDTO requestMember) {
 
-        Member findMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
+        //Member findMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
+        Member findMember = memberRepository.findByEmail(requestMember.getEmail());
 
         if(findMember == null){
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
@@ -80,7 +81,7 @@ public class MemberService {
                 .map(CareerDTO::toEntity)
                 .forEach(findMember::addCareer);
 
-        Member responseMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
+        Member responseMember = memberRepository.findByMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
 
         return MemberDTO.toDTO(responseMember);
     }
@@ -172,5 +173,25 @@ public class MemberService {
         Page<MemberSimpleListDTO> members = memberRepository.findMembers(pageable);
 
         return members;
+    }
+
+    public MemberDTO findMember(String email) {
+        Member member = memberRepository.findByMemberWithEducationsAndCareersByEmail(email);
+
+        if(member == null){
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+
+        return MemberDTO.toDTO(member);
+    }
+
+    public String findEmail(String name, String phone) {
+        Member member = memberRepository.findByMemberNameAndPhone(name, phone);
+
+        if(member == null){
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+
+        return member.getEmail();
     }
 }

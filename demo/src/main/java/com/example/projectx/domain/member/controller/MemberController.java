@@ -6,6 +6,7 @@ import com.example.projectx.domain.member.service.MemberService;
 import com.example.projectx.global.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -88,6 +89,34 @@ public class MemberController {
                 .data(memberDTOS)
                 .success(true)
                 .message("회원리스트 조회에 성공하였습니다.")
+                .build();
+
+        return ResponseEntity.ok().body(responseDto);
+    }
+
+    // 회원정보 조회
+    @GetMapping("/member")
+    public ResponseEntity<ResponseDto> member(@RequestParam String email){
+        MemberDTO memberDTO = memberService.findMember(email);
+
+        ResponseDto responseDto = ResponseDto.builder()
+                .data(memberDTO)
+                .success(true)
+                .message("회원정보 조회에 성공하였습니다.")
+                .build();
+
+        return ResponseEntity.ok().body(responseDto);
+    }
+
+    // email 찾기
+    @GetMapping("/findEmail")
+    public ResponseEntity<ResponseDto> findEmail(@RequestParam String memberName, @RequestParam String phone){
+        String email = memberService.findEmail(memberName, phone);
+
+        ResponseDto responseDto = ResponseDto.builder()
+                .data(email)
+                .success(true)
+                .message("이메일 찾기에 성공하였습니다.")
                 .build();
 
         return ResponseEntity.ok().body(responseDto);
