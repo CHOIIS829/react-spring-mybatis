@@ -24,20 +24,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // 회원리스트 조회
-    @GetMapping("/members")
-    public ResponseEntity<ResponseDto> members(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
-        Page<MemberSimpleListDTO> memberDTOS = memberService.findMembers(page, size);
-
-        ResponseDto responseDto = ResponseDto.builder()
-                .data(memberDTOS)
-                .success(true)
-                .message("회원리스트 조회에 성공하였습니다.")
-                .build();
-
-        return ResponseEntity.ok().body(responseDto);
-    }
-
     // 개인정보 등록
     @PostMapping("/privacy")
     public ResponseEntity<ResponseDto> privacy(@RequestBody MemberDTO requestMember){
@@ -88,6 +74,20 @@ public class MemberController {
         ResponseDto responseDto = ResponseDto.builder()
                 .success(true)
                 .message("회원탈퇴에 성공하였습니다.")
+                .build();
+
+        return ResponseEntity.ok().body(responseDto);
+    }
+
+    // 회원리스트 조회
+    @GetMapping("/members")
+    public ResponseEntity<ResponseDto> members(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<MemberSimpleListDTO> memberDTOS = memberService.findMembers(page, size);
+
+        ResponseDto responseDto = ResponseDto.builder()
+                .data(memberDTOS)
+                .success(true)
+                .message("회원리스트 조회에 성공하였습니다.")
                 .build();
 
         return ResponseEntity.ok().body(responseDto);

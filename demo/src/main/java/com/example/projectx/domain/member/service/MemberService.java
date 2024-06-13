@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -59,33 +60,29 @@ public class MemberService {
     public MemberDTO insertPrivacy(MemberDTO requestMember) {
 
         Member findMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
-        log.info("fineMember.getEducations().size() : " + findMember.getEducations().size());
-        log.info("fineMember.getCareers().size() : " + findMember.getCareers().size());
 
-//        if(findMember == null){
-//            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
-//        }
-//
-//        findMember.updatePrivacy(
-//                requestMember.getPhone(),
-//                requestMember.getBirthDate(),
-//                requestMember.getIntroduction(),
-//                requestMember.getGitAddress()
-//        );
-//
-//        requestMember.getEducations().stream() //
-//                .map(EducationDTO::toEntity)
-//                .forEach(findMember::addEducation);
-//
-//        requestMember.getCareers().stream()
-//                .map(CareerDTO::toEntity)
-//                .forEach(findMember::addCareer);
-//
-//        Member responseMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
-//        log.info("responseMember.getEducations().size() : " + responseMember.getEducations().size());
-//        log.info("responseMember.getCareers().size() : " + responseMember.getCareers().size());
+        if(findMember == null){
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
 
-        return null;//MemberDTO.toDTO(responseMember);
+        findMember.updatePrivacy(
+                requestMember.getPhone(),
+                requestMember.getBirthDate(),
+                requestMember.getIntroduction(),
+                requestMember.getGitAddress()
+        );
+
+        requestMember.getEducations().stream() //
+                .map(EducationDTO::toEntity)
+                .forEach(findMember::addEducation);
+
+        requestMember.getCareers().stream()
+                .map(CareerDTO::toEntity)
+                .forEach(findMember::addCareer);
+
+        Member responseMember = memberRepository.findMemberWithEducationsAndCareersByEmail(requestMember.getEmail());
+
+        return MemberDTO.toDTO(responseMember);
     }
 
     @Transactional
@@ -102,7 +99,9 @@ public class MemberService {
 
             // 이미 저장된 파일 삭제
             Member findmember = memberRepository.findByEmail(email);
+
             String profileImg = findmember.getProfileImg();
+
             if (profileImg != null) {
                 Path deletePath = Paths.get(uploadPath, profileImg.replace("src/main/resources/upload/profile/", ""));
                 if (Files.exists(deletePath)) {
@@ -171,8 +170,6 @@ public class MemberService {
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "memberNo");
 
         Page<MemberSimpleListDTO> members = memberRepository.findMembers(pageable);
-
-        Member member = memberRepository.findByEmail("admin@gmail.com");
 
         return members;
     }

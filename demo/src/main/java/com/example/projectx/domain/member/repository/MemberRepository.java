@@ -14,11 +14,12 @@ import org.springframework.stereotype.Repository;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByEmail(String email);
     Member findByEmail(String email);
-    @Query("select m " +
+    @Query("select distinct m " +
             "from Member m " +
-            "left join m.educations e " +
-            "left join m.careers c " +
-            "where m.email = :email")
+            "left join fetch m.educations e " +
+            "left join fetch m.careers c " +
+            "where m.email = :email " +
+            "order by e.educationNo asc , c.careerNo asc")
     Member findMemberWithEducationsAndCareersByEmail(@Param("email") String email);
     void deleteByEmail(String email);
     @Query("select new com.example.projectx.domain.member.dto.MemberSimpleListDTO(m.memberNo, m.email, m.memberName, m.phone, m.birthDate, m.role, m.createAt, m.updateAt) " +
