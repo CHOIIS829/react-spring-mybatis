@@ -3,7 +3,6 @@ import { Container } from "../style/common";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import {memberLogin} from '../member/memberSlice'
 import { Modal } from "../util/modal";
 
 const LoginContainer = styled.form`
@@ -56,7 +55,6 @@ export const Login = () =>{
     const [openModal, setOpenModal] = useState(false);
     const [children, setChildren] = useState("");
     const inputRef = useRef(null);
-    const dispatch = useDispatch();
 
     useEffect(()=>{
         inputRef.current.focus();
@@ -74,20 +72,6 @@ export const Login = () =>{
         setPwd(e.target.value);
     }
 
-    const handleSignIn = () => {
-        
-        if(email && pwd ){
-            const data = {
-                email : email,
-                password : pwd
-            }
-            dispatch(memberLogin(data));         
-        }else{
-            setOpenModal(true);
-            setChildren("이메일 비밀번호를 입력하세요.")
-        }
-
-    }
     
     return(
         <>
@@ -96,7 +80,7 @@ export const Login = () =>{
                 <h1 onClick={()=>moveTo("/")}>project<span style={{color:'#F26F23', fontSize:'35px'}}>X</span></h1>
                 <input placeholder="이메일" ref={inputRef} onChange={handleEmail} autoComplete="username"/>
                 <input placeholder="비밀번호" type="password" onChange={handelPwd} autoComplete="current-password" />
-                <button onClick={handleSignIn}>로그인</button>
+                <button>로그인</button>
                 <UtilContainer>
                     {
                         navi.map((navi)=>
