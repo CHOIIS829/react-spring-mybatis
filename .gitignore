@@ -1,0 +1,59 @@
+HELP.md
+demo/.gradle
+build/
+demo/!gradle/wrapper/gradle-wrapper.jar
+demo/!**/src/main/**/build/
+demo/!**/src/test/**/build/
+
+### STS ###
+demo/.apt_generated
+demo/.classpath
+demo/.factorypath
+demo/.project
+demo/.settings
+demo/.springBeans
+demo/.sts4-cache
+demo/bin/
+demo/!**/src/main/**/bin/
+demo/!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+demo/.idea
+demo/*.iws
+demo/*.iml
+demo/*.ipr
+demo/out/
+demo/!**/src/main/**/out/
+demo/!**/src/test/**/out/
+
+### NetBeans ###
+demo/nbproject/private/
+demo/nbbuild/
+demo/dist/
+demo/nbdist/
+demo/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+# dependencies
+frontend/node_modules
+frontend/.pnp
+frontend/.pnp.js
+
+# testing
+frontend/coverage
+
+# production
+frontend/build
+
+# misc
+frontend/.DS_Store
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*

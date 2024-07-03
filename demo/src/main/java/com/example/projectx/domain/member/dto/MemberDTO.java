@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class MemberDTO {
     private Long memberNo;
     private String email;
-    private String memberPwd;
+    private String memberPwd; 
     private String memberName;
     private String phone;
     private LocalDate birthDate;
