@@ -4,7 +4,7 @@ export const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 5px solid yellow;
+    border: 5px solid red;
     .isOpen{
         position: fixed; 
         top: 0;

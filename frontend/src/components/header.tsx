@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FiMenu } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
+import { SidebarProps } from "../types/component";
 const HeaderContainer = styled.div`
     height: auto;
     background-color: var(--main-color);
@@ -49,7 +49,8 @@ interface RouteItem {
     route: string;
 }
 
-export const Header : React.FC = () => {
+
+export const Header : React.FC<SidebarProps>  = ({ toggleSideBar, sideBar }) => {
     const navigate = useNavigate();
 
     const goToDestination = (e : string) => {
@@ -62,7 +63,7 @@ export const Header : React.FC = () => {
     
     return(
         <HeaderContainer>
-            <MenuIcon/>
+            <MenuIcon onClick={toggleSideBar}/>
             <h2>project<span style={{color:'black', fontSize:'25px'}}>X</span></h2>
             <LoginContainer>
                 {LoginRoute.map((value : RouteItem) =>
