@@ -63,7 +63,7 @@ export const Modal: React.FC<ModalProps> = (props) => {
     const { open, confirm, close, children } = props;    
 
     return(
-        <div>
+        <ModalContainer>
             <div className={open ? "openModal" : "closeModal"}>
             <section>
                 <header>
@@ -76,6 +76,6 @@ export const Modal: React.FC<ModalProps> = (props) => {
                 </footer>
             </section>
             </div>
-        </div>
+        </ModalContainer>
     );
 }
