@@ -4,7 +4,6 @@ export const Main : React.FC = () => {
         <>
             <Container>
                 <h1>This is main page</h1>
-                {/* <div className='isOpen'></div> */}
 
             </Container>
         </>
