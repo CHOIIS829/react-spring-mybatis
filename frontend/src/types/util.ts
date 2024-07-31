@@ -1,6 +1,8 @@
 export interface ModalProps{
     open: boolean;
-    confirm: ()=> void;
-    close: ()=> void;
-    children: string; 
+    confirmStatus: boolean;
+    confirm: any;
+    closeStatus: boolean;
+    close: any;
+    children: any;
 }

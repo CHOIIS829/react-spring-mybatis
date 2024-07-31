@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { Container, Button, Input, Paragraph } from "../style/common";
+import { modalState } from "../types/modal";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Logo } from "../style/logo";
+import { Policy } from '../assets/data/policy'
 import { memberJoin } from "../api/memberApi";
 import { Modal } from "../util/modal";
 
@@ -25,12 +27,30 @@ export const SignUp: React.FC = () => {
     const [password, setPassword] = useState<string>("");
     const [rePassword, setRePassword] = useState<string>("");
     const [name, setName] = useState<string>("");
+    const [modalState, setModalState] = useState<boolean>(false);
     const [confirm, setConfirm] = useState<{ [key: string]: boolean }>({
         confirmEmail: false,
         confirmPassword: false,
         confirmRePassword: false,
         confirmName: false
     });
+
+    const [modal, setModal] = useState<modalState>({
+        confrimState :false,
+        cancelState : false, 
+        children : "",
+        confirm : false
+    });
+
+    useEffect(()=>{
+        setModalState(true);
+        setModal({
+            confrimState :true,
+            cancelState : true, 
+            children : <Policy/>,
+            confirm : false
+        });
+    },[])
 
     const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -60,7 +80,7 @@ export const SignUp: React.FC = () => {
         setConfirm(prev => ({ ...prev, [key]: isValid }));
     }
 
-    const goToSignUp = async() =>{
+    const goToSignUp = async() => {
         const allConfirmed = Object.values(confirm).every(value => value === true);
 
         if(allConfirmed){
@@ -70,19 +90,51 @@ export const SignUp: React.FC = () => {
                 memberName : name
             }
             const response = await memberJoin(data);
-            console.log(response);
-   
+            
+            switch(response.status){
+                case 200 :              
+                    setModalState(true);
+                    setModal({
+                        confrimState : true,
+                        cancelState : false, 
+                        children : response.data.message,
+                        confirm : response.data.success
+                    });
+                    break;
+                case 400 :            
+                    setModalState(true);
+                    setModal({
+                        confrimState : true,
+                        cancelState : false, 
+                        children : response.data.message,
+                        confirm : response.data.success
+                    });
+                    break;
+                default : 
+                    return;
+            }          
         }else{
-            console.log("false");
+            setModalState(true);
+            setModal({
+                confrimState : true,
+                cancelState : false, 
+                children : "내용을 기입하세요.",
+                confirm : false
+            })
         }
+
     }
 
     const handleConfirm = () => {
-        console.log("hello");
-    };
+        if(modal.confirm){
+            navigate("/");
+        }else{
+            setModalState(false);
+        }
+    }
 
     const handleClose = () => {
-        console.log("Modal closed");
+        navigate("/");
     };
 
     return (
@@ -91,7 +143,6 @@ export const SignUp: React.FC = () => {
                 <>
                     <Logo/>
                     <Input type="text" placeholder="이메일을 입력하세요." value={email} onChange={onChangeEmail} />
-                    {console.log(confirm.confirmEmail)}
                     {email.length > 0 ? confirm.confirmEmail ? <Paragraph $valid={true}>true</Paragraph> : <Paragraph $valid={false}>false</Paragraph> : null}
                     <Input type="password" placeholder="비밀번호를 입력하세요." value={password} onChange={onChangePassword} />
                     {password.length > 0 ? confirm.confirmPassword ? <Paragraph $valid={true}>true</Paragraph> : <Paragraph $valid={false}>false</Paragraph> : null}
@@ -99,10 +150,10 @@ export const SignUp: React.FC = () => {
                     {rePassword.length > 0 ? confirm.confirmRePassword ? <Paragraph $valid={true}>true</Paragraph> : <Paragraph $valid={false}>false</Paragraph> : null}
                     <Input type="text" placeholder="이름을 입력하세요." value={name} onChange={onChangeName} />
                     {name.length > 0 ? confirm.confirmName ? <Paragraph $valid={true}>true</Paragraph> : <Paragraph $valid={false}>false</Paragraph> : null}
-                    <Button onClick={goToSignUp}>로그인</Button>
+                    <Button onClick={goToSignUp}>회원가입</Button>
                 </>
             </LoginContainer>
-            <Modal open={true} confirm={handleConfirm} close={handleClose} children="testing"/>
+            <Modal open={modalState} confirmStatus={modal.confrimState} confirm={handleConfirm} closeStatus={modal.cancelState} close={handleClose} children={modal.children}/>
         </Container>
     );
 }

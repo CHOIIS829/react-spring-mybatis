@@ -14,6 +14,12 @@ export interface JoinResponse {
     success: boolean;
 }
 
-export interface JoinError{
-    message: string;
+
+export interface loginRequest{
+    email: string;
+    memberPwd: string;
+}
+
+export interface loginResponse{
+    //checking the data
 }

@@ -4,6 +4,7 @@ import { Header } from "./components/header";
 import { Sidebar } from "./components/sidebar";
 import { useState } from "react";
 import { SignUp } from "./pages/signUp";
+import { Login } from "./pages/login";
 
 export const Router : React.FC = () => {
     const [sideBar, setSideBar] = useState<boolean>(false);
@@ -24,6 +25,9 @@ export const Router : React.FC = () => {
                 }/>
                 <Route path="/signup" element={
                     <SignUp/>
+                }/>
+                <Route path="/login" element={
+                    <Login/>
                 }/>
             </Routes>
         </BrowserRouter>
