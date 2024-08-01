@@ -33,9 +33,6 @@ export const Login : React.FC = () => {
             memberPwd : pwd
         }
         const response = await memberLogin(data);
-        const accessToken = response.headers; 
-        console.log(accessToken);
-        console.log(response);
     }
 
     const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {

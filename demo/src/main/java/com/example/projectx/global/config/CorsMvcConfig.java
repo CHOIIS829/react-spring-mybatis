@@ -1,5 +1,6 @@
 package com.example.projectx.global.config;
 
+import com.example.projectx.global.jwt.controller.ReissueController;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -13,6 +14,7 @@ public class CorsMvcConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true)
+                .exposedHeaders(ReissueController.HEADER_STRING)
                 .maxAge(3600);
     }
 

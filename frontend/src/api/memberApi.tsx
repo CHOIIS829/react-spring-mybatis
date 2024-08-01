@@ -1,11 +1,14 @@
 import axios, { AxiosResponse } from 'axios';
-import { JoinRequest, JoinResponse, loginRequest, loginResponse } from '../types/member';
+import { JoinRequest, JoinResponse, loginRequest } from '../types/member';
 
-const baseUrl = "http://localhost:8080"
+const instance = axios.create({
+    baseURL : "http://localhost:8080",
+    timeout : 1000
+});
 
 export const memberJoin = async (data: JoinRequest): Promise<JoinResponse | any> => {
     try {
-        const response: AxiosResponse<JoinResponse> = await axios.post(`${baseUrl}/join`, data);
+        const response: AxiosResponse<JoinResponse> = await instance.post('/join', data);
         return response
     } catch (e) {
         if (axios.isAxiosError(e) ) {
@@ -14,17 +17,21 @@ export const memberJoin = async (data: JoinRequest): Promise<JoinResponse | any>
     }
 };
 
-export const memberLogin = async (data: loginRequest): Promise<loginResponse | any> => {
-    try{
-        axios.defaults.withCredentials = true;        
-        const response : AxiosResponse<any> = await axios.post(`${baseUrl}/login`, data);
-        return response;
-    }catch(e){
-        if(axios.isAxiosError(e)){
-            return e.response;
-        }        
-    }
-}
+export const memberLogin = (data: loginRequest): Promise<any> => {
+    instance.defaults.withCredentials = true;
+    return instance.post('login', data)
+        .then((res) => {
+            console.log(res);
+            let accessToken = res.headers['authorization']; // 응답헤더에서 토큰 받기
+            console.log(accessToken);
+            return res;
+        })
+        .catch((error) => {
+            console.log(error);
+            throw error; 
+        });
+};
+
 
 
 

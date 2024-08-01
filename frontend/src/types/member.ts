@@ -19,7 +19,3 @@ export interface loginRequest{
     email: string;
     memberPwd: string;
 }
-
-export interface loginResponse{
-    //checking the data
-}

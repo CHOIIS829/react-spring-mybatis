@@ -21,6 +21,7 @@ public class ReissueController { // 용도 : refresh-token 재발급 컨트롤�
 
     private final JWTUtil jwtUtil;
     private final RefreshRepository refreshRepository;
+    public static final String HEADER_STRING = "Authorization";
 
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response){
@@ -68,7 +69,7 @@ public class ReissueController { // 용도 : refresh-token 재발급 컨트롤�
         String email = jwtUtil.getEmail(refresh);
         String role = jwtUtil.getRole(refresh);
 
-        String newAccess = jwtUtil.createJwt("access", email, role, 10*60*1000L); // 10분 유효
+        String newAccess = jwtUtil.createJwt(HEADER_STRING, email, role, 10*60*1000L); // 10분 유효
         String newRefresh = jwtUtil.createJwt("refresh", email, role, 24*60*60*1000L); // 24시간 유효
 
         // 기존 refresh-token 삭제 후 새로운 refresh-token 추가
