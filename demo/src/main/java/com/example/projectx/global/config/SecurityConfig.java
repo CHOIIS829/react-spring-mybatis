@@ -5,6 +5,7 @@ import com.example.projectx.global.jwt.filter.CustomLogoutFilter;
 import com.example.projectx.global.jwt.filter.JWTFilter;
 import com.example.projectx.global.jwt.filter.JWTUtil;
 import com.example.projectx.global.jwt.filter.LoginFilter;
+import com.example.projectx.global.jwt.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,8 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final RefreshRepository refreshRepository;
+    private final CustomUserDetailsService customUserDetailsService;
+
 
     //AuthenticationManager Bean 등록
     @Bean
@@ -82,7 +85,7 @@ public class SecurityConfig {
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository, customUserDetailsService), UsernamePasswordAuthenticationFilter.class);
         http
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class);
 

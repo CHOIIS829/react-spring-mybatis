@@ -27,4 +27,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Page<MemberSimpleListDTO> findMembers(Pageable pageable);
 
     Member findByMemberNameAndPhone(String name, String phone);
+
 }

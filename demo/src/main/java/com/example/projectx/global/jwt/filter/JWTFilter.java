@@ -22,15 +22,15 @@ import java.io.PrintWriter;
 public class JWTFilter extends OncePerRequestFilter { // 용도 : JWT 토큰을 검증하는 필터
 
     private final JWTUtil jwtUtil;
-
+    public static final String HEADER_STRING = "Authorization";
     // JWT 토큰을 검증하는 필터
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeader("access");
+        String accessToken = request.getHeader(HEADER_STRING);
         // 헤더에 access 토큰이 없을 경우
         if(accessToken == null){
-            filterChain.doFilter(request, response);
-            return;
+           filterChain.doFilter(request, response);
+           return;
         }
 
         // 토큰 만료 여부 확인
@@ -51,13 +51,17 @@ public class JWTFilter extends OncePerRequestFilter { // 용도 : JWT 토큰을 
 
             PrintWriter writer = response.getWriter();
             writer.println("invalid access-token");
-
+            log.info("header value is not correct");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
+        log.info("token value is : " + accessToken);
 
         String email = jwtUtil.getEmail(accessToken);
         String role = jwtUtil.getRole(accessToken);
+
+        log.info(email);
+        log.info(role);
 
         Member member = Member.builder()
                 .email(email)
@@ -66,6 +70,7 @@ public class JWTFilter extends OncePerRequestFilter { // 용도 : JWT 토큰을 
 
         CustomUserDetails customUserDetails = new CustomUserDetails(member); // CustomUserDetails 객체 생성
 
+        //this grants access
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities()); // Authentication 객체 생성
         SecurityContextHolder.getContext().setAuthentication(authToken); // SecurityContextHolder에 Authentication 객체 저장
 

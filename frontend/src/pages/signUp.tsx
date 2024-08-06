@@ -27,7 +27,7 @@ export const SignUp: React.FC = () => {
     const [password, setPassword] = useState<string>("");
     const [rePassword, setRePassword] = useState<string>("");
     const [name, setName] = useState<string>("");
-    const [modalState, setModalState] = useState<boolean>(false);
+    const [modalStatus, setModalStatus] = useState<boolean>(false);
     const [confirm, setConfirm] = useState<{ [key: string]: boolean }>({
         confirmEmail: false,
         confirmPassword: false,
@@ -43,7 +43,7 @@ export const SignUp: React.FC = () => {
     });
 
     useEffect(()=>{
-        setModalState(true);
+        setModalStatus(true);
         setModal({
             confrimState :true,
             cancelState : true, 
@@ -93,7 +93,7 @@ export const SignUp: React.FC = () => {
             
             switch(response.status){
                 case 200 :              
-                    setModalState(true);
+                    setModalStatus(true);
                     setModal({
                         confrimState : true,
                         cancelState : false, 
@@ -102,7 +102,7 @@ export const SignUp: React.FC = () => {
                     });
                     break;
                 case 400 :            
-                    setModalState(true);
+                    setModalStatus(true);
                     setModal({
                         confrimState : true,
                         cancelState : false, 
@@ -114,7 +114,7 @@ export const SignUp: React.FC = () => {
                     return;
             }          
         }else{
-            setModalState(true);
+            setModalStatus(true);
             setModal({
                 confrimState : true,
                 cancelState : false, 
@@ -129,7 +129,7 @@ export const SignUp: React.FC = () => {
         if(modal.confirm){
             navigate("/");
         }else{
-            setModalState(false);
+            setModalStatus(false);
         }
     }
 
@@ -153,7 +153,7 @@ export const SignUp: React.FC = () => {
                     <Button onClick={goToSignUp}>회원가입</Button>
                 </>
             </LoginContainer>
-            <Modal open={modalState} confirmStatus={modal.confrimState} confirm={handleConfirm} closeStatus={modal.cancelState} close={handleClose} children={modal.children}/>
+            <Modal open={modalStatus} confirmStatus={modal.confrimState} confirm={handleConfirm} closeStatus={modal.cancelState} close={handleClose} children={modal.children}/>
         </Container>
     );
 }

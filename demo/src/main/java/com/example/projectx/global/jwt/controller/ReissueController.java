@@ -76,7 +76,7 @@ public class ReissueController { // 용도 : refresh-token 재발급 컨트롤�
         refreshRepository.deleteByRefresh(refresh);
         addRefreshEntity(email, newRefresh, 24*60*60*1000L);
 
-        response.setHeader("access", newAccess);
+        response.setHeader(HEADER_STRING, newAccess);
         response.addCookie(createCookie("refresh", newRefresh));
 
         return new ResponseEntity<>("access-token 재발급 완료", HttpStatus.OK);
@@ -98,8 +98,8 @@ public class ReissueController { // 용도 : refresh-token 재발급 컨트롤�
     private Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(24*60*60); // 24시간 유효
-//        cookie.setSecure(true); // https에서만 사용 가능
-//        cookie.setPath("/"); // 모든 경로에서 접근 가능
+        //cookie.setSecure(true); // https에서만 사용 가능
+        cookie.setPath("/"); // 모든 경로에서 접근 가능
         cookie.setHttpOnly(true); // 자바스크립트에서 접근 불가
 
         return cookie;

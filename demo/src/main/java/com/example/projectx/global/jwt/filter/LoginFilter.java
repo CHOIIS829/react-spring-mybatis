@@ -1,8 +1,12 @@
 package com.example.projectx.global.jwt.filter;
 
 import com.example.projectx.domain.member.dto.MemberDTO;
+
+import com.example.projectx.global.jwt.dto.CustomUserDetailResponse;
+import com.example.projectx.global.jwt.dto.CustomUserDetails;
 import com.example.projectx.global.jwt.entity.RefreshEntity;
 import com.example.projectx.global.jwt.repository.RefreshRepository;
+import com.example.projectx.global.jwt.service.CustomUserDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletInputStream;
@@ -33,6 +37,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter { // 용�
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
     private final RefreshRepository refreshRepository;
+    private final CustomUserDetailsService customUserDetailsService;
+
 
     // 로그인 요청이 들어왔을 때 실행되는 메소드
     @Override
@@ -56,17 +62,15 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter { // 용�
         log.info("memberPwd : " + memberPwd);
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, memberPwd);
-
         return authenticationManager.authenticate(authToken);
     }
 
     //로그인 성공시 실행하는 메소드 (여기서 JWT를 발급하면 됨)
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         log.info("로그인 성공");
 
         String email = authentication.getName();
-
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
@@ -74,12 +78,28 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter { // 용�
 
         String access = jwtUtil.createJwt("access", email, role, 24*60*60*1000L); // 10분 유효
         String refresh = jwtUtil.createJwt("refresh", email, role, 24*60*60*1000L); // 24시간 유효
-
         addRefreshEntity(email, refresh, 24*60*60*1000L);
+
+        CustomUserDetails userDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(email);
+        CustomUserDetailResponse userResponse = CustomUserDetailResponse.builder()
+                .email(userDetails.getUsername())
+                .name(userDetails.getName())
+                .phone(userDetails.getPhoneNumber())
+                .birthDate(userDetails.getBirthDate())
+                .introduction(userDetails.getIntroduction())
+                .profileImg(userDetails.getProfileImg())
+                .gitAddress(userDetails.getGitAddress())
+                .role(userDetails.getAuthorities().iterator().next().getAuthority())
+                .build();
+
 
         response.setHeader("Authorization", access);
         response.addCookie(createCookie("refresh", refresh));
         response.setStatus(HttpStatus.OK.value());
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(new ObjectMapper().writeValueAsString(userResponse));
     }
 
     //로그인 실패시 실행하는 메소드

@@ -7,6 +7,8 @@ import com.example.projectx.domain.member.dto.MemberDTO;
 import com.example.projectx.domain.member.dto.MemberSimpleListDTO;
 import com.example.projectx.domain.member.entity.Member;
 import com.example.projectx.domain.member.repository.MemberRepository;
+import com.example.projectx.global.jwt.dto.CustomUserDetails;
+import com.example.projectx.global.jwt.service.CustomUserDetailsService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -193,5 +200,24 @@ public class MemberService {
         }
 
         return member.getEmail();
+    }
+
+
+
+    public int testing() {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info(userName);
+
+
+
+
+        return 1;
+    }
+
+
+    private UserDetailsService userDetailsService;
+
+    public CustomUserDetails getUserDetailsByEmail(String email) {
+        return (CustomUserDetails) userDetailsService.loadUserByUsername(email);
     }
 }

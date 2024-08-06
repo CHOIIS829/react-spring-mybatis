@@ -5,6 +5,8 @@ import { Sidebar } from "./components/sidebar";
 import { useState } from "react";
 import { SignUp } from "./pages/signUp";
 import { Login } from "./pages/login";
+import { FindPwd } from "./pages/findpwd";
+import { FindEmail } from "./pages/findEmail";
 
 export const Router : React.FC = () => {
     const [sideBar, setSideBar] = useState<boolean>(false);
@@ -28,6 +30,12 @@ export const Router : React.FC = () => {
                 }/>
                 <Route path="/login" element={
                     <Login/>
+                }/>
+                <Route path="/findpwd" element={
+                    <FindPwd/>
+                }/>
+                <Route path="/findemail" element={
+                    <FindEmail/>
                 }/>
             </Routes>
         </BrowserRouter>
