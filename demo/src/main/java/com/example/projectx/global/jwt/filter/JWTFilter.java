@@ -51,11 +51,9 @@ public class JWTFilter extends OncePerRequestFilter { // 용도 : JWT 토큰을 
 
             PrintWriter writer = response.getWriter();
             writer.println("invalid access-token");
-            log.info("header value is not correct");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-        log.info("token value is : " + accessToken);
 
         String email = jwtUtil.getEmail(accessToken);
         String role = jwtUtil.getRole(accessToken);

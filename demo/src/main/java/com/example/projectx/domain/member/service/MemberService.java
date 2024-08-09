@@ -182,7 +182,8 @@ public class MemberService {
         return members;
     }
 
-    public MemberDTO findMember(String email) {
+    public MemberDTO findMember() {
+        String email = getCurrentUserEmail();
         Member member = memberRepository.findByMemberWithEducationsAndCareersByEmail(email);
 
         if(member == null){
@@ -201,23 +202,14 @@ public class MemberService {
 
         return member.getEmail();
     }
-
-
-
-    public int testing() {
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        log.info(userName);
-
-
-
-
-        return 1;
+    public String getCurrentUserEmail(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return userDetails.getUsername();
+        }
+        throw new RuntimeException("존재하지 않는 회원입니다.");
     }
 
 
-    private UserDetailsService userDetailsService;
-
-    public CustomUserDetails getUserDetailsByEmail(String email) {
-        return (CustomUserDetails) userDetailsService.loadUserByUsername(email);
-    }
 }

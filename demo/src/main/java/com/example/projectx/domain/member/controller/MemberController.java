@@ -98,8 +98,8 @@ public class MemberController {
 
     // 회원정보 조회
     @GetMapping("/member")
-    public ResponseEntity<ResponseDto> member(@RequestParam String email){
-        MemberDTO memberDTO = memberService.findMember(email);
+    public ResponseEntity<ResponseDto> member(){
+        MemberDTO memberDTO = memberService.findMember();
 
         ResponseDto responseDto = ResponseDto.builder()
                 .data(memberDTO)
