@@ -123,10 +123,4 @@ public class MemberController {
 
         return ResponseEntity.ok().body(responseDto);
     }
-
-    @GetMapping("/findAll")
-    public ResponseEntity<Integer> findAll() {
-        int x = memberService.testing();
-        return ResponseEntity.ok().body(x);
-    }
 }

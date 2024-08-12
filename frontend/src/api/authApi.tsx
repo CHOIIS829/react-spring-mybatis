@@ -1,24 +1,24 @@
 import axios from "axios";
-
+//process.env.REACT_APP_Server_IP
 const instance = axios.create({
-    baseURL :  process.env.REACT_APP_SERVER_IP,
+    baseURL : 'http://localhost:8080',
     timeout : 1000,
     withCredentials : true
 });
-
-axios.interceptors.request.use(
+instance.interceptors.request.use(
     function(config){
-        const token = localStorage.getItem('accessToken');
-        if(token){
-            config.headers.Authorization = token;
+        let accessToken = localStorage.getItem('accessToken');
+        if(accessToken){
+            config.headers['Authorization'] = accessToken;
         }
         return config
-    }, function(error){
-        return error
+    }, 
+    function(error){
+        return Promise.reject(error);
     }
 );
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
     function(response){
         return response
     },
@@ -28,7 +28,7 @@ axios.interceptors.response.use(
 );
 
 export const getMember = async (): Promise<any> => {
-    return instance.get('api/member')
+    return instance.get('/api/member')
         .then((response) => {
             return response;
         })

@@ -6,6 +6,10 @@ import { memberLogin } from "../api/memberApi";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../util/modal";
 import { modalState } from "../types/modal";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../redux/store";
+import { fetchMemberData } from "../redux/memberSlice";
+
 
 const SignUpContainer = styled.div`
     border: 2px solid black;
@@ -44,17 +48,21 @@ export const Login : React.FC = () => {
         children : "",
         confirm : false
     });
+    const {member, loading, error} = useSelector((state: RootState) => state.member);
+    const dispatch = useDispatch<AppDispatch>(); 
 
     const LoginHandler = async() => {
         const data = {
             email : email,
             memberPwd : pwd
         }
-        let response = await memberLogin(data);
+        //this procs
+        const response = await memberLogin(data);
+        console.log(response.status)
         if(response){
             switch(response.status){
                 case 200 :
-
+                    await dispatch(fetchMemberData())
                     navigate("/");
                     break;
                 case 401 : 

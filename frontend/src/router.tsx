@@ -1,4 +1,4 @@
-import { BrowserRouter,Routes, Route } from "react-router-dom";
+import { BrowserRouter,Routes, Route  } from "react-router-dom";
 import {Main} from "./pages/main"
 import { Header } from "./components/header";
 import { Sidebar } from "./components/sidebar";
@@ -40,5 +40,6 @@ export const Router : React.FC = () => {
             </Routes>
         </BrowserRouter>
     );
+};
 
-}
+
