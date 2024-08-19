@@ -3,6 +3,12 @@ import styled from "styled-components";
 import { FiMenu } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { SidebarProps } from "../types/component";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { AppDispatch } from "../redux/store";
+import { useDispatch } from "react-redux";
+import { resetMember } from "../redux/memberSlice";
+
 const HeaderContainer = styled.div`
     height: auto;
     background-color: var(--main-color);
@@ -38,6 +44,7 @@ const LoginContainer = styled.div`
     };
 `;
 
+
 const LoginRoute: RouteItem[] = [
     {path : '/login', route : 'Login'},
     {path : '', route : '|'},
@@ -49,15 +56,36 @@ interface RouteItem {
     route: string;
 }
 
-
 export const Header : React.FC<SidebarProps>  = ({ toggleSideBar, sideBar }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>(); 
 
-    const goToDestination = (e : string) => {
-        if(!e){
-            return
+    const goToDestination = (path: string) => {
+        if (path) {
+            navigate(path);
+        }
+    };
+
+    const memberState = useSelector((state: RootState) => state.member);
+
+    const handleLogout = () => {
+        localStorage.removeItem('accessToken');
+        dispatch(resetMember());
+    }
+
+    const isLoggedin  = () => {
+        if(memberState.member){
+            return(
+                <>
+                    <p>{memberState.member?.memberName}</p> 
+                    <p>|</p>
+                    <p onClick={handleLogout}>Logout</p>
+                </>
+            ) 
         }else{
-            navigate(e);
+            return LoginRoute.map((value : RouteItem) =>
+                <p key={value.route} onClick={()=>goToDestination(value.path)}>{value.route}</p>
+            )
         }
     };
     
@@ -66,10 +94,9 @@ export const Header : React.FC<SidebarProps>  = ({ toggleSideBar, sideBar }) => 
             <MenuIcon onClick={toggleSideBar}/>
             <h2>project<span style={{color:'black', fontSize:'25px'}}>X</span></h2>
             <LoginContainer>
-                {LoginRoute.map((value : RouteItem) =>
-                    <p key={value.route} onClick={()=>goToDestination(value.path)}>{value.route}</p>
-                )}
+                {isLoggedin()}
             </LoginContainer>
+
         </HeaderContainer>
     );
 }

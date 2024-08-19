@@ -5,7 +5,7 @@ import { MemberState, Member } from "../types/member";
 
 const initialState: MemberState = {
   member: null,
-  loading: false,
+  loading : false,
   error: null,
 };
 
@@ -18,11 +18,10 @@ export const fetchMemberData = createAsyncThunk<
   async (_, { rejectWithValue }) => {
     try {
       const response = await getMember(); 
-      console.log(response);
-      return response.data as Member;   
+      const { memberNo, email, memberName } = response.data.data;
+      return { memberNo, email, memberName } as Member;
     } catch (error: any) {
-      const errorMessage = error.response?.data || "Failed to fetch member data";
-      return rejectWithValue(errorMessage);
+      return rejectWithValue(error);
     }
   }
 );
@@ -31,6 +30,11 @@ const memberSlice = createSlice({
   name: 'member',
   initialState,
   reducers: {
+    resetMember: (state) => {
+      state.member = null;
+      state.loading = false;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -50,3 +54,5 @@ const memberSlice = createSlice({
 });
 
 export default memberSlice.reducer;
+export const { resetMember } = memberSlice.actions;
+

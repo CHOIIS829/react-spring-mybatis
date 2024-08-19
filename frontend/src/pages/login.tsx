@@ -6,8 +6,8 @@ import { memberLogin } from "../api/memberApi";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../util/modal";
 import { modalState } from "../types/modal";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "../redux/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
 import { fetchMemberData } from "../redux/memberSlice";
 
 
@@ -48,7 +48,6 @@ export const Login : React.FC = () => {
         children : "",
         confirm : false
     });
-    const {member, loading, error} = useSelector((state: RootState) => state.member);
     const dispatch = useDispatch<AppDispatch>(); 
 
     const LoginHandler = async() => {
@@ -56,9 +55,7 @@ export const Login : React.FC = () => {
             email : email,
             memberPwd : pwd
         }
-        //this procs
         const response = await memberLogin(data);
-        console.log(response.status)
         if(response){
             switch(response.status){
                 case 200 :

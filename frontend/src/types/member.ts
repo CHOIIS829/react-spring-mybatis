@@ -14,22 +14,21 @@ export interface JoinResponse {
     success: boolean;
 }
 
-
 export interface loginRequest{
     email: string;
     memberPwd: string;
 }
 
 export interface Member {
-    id: number;
-    name: string;
+    memberNo: number;
     email: string;
+    memberName: string;
 }
   
-  // Define a type for the slice state
 export interface MemberState {
     member: Member | null;
     loading: boolean;
     error: string | null;
 }
+  
   
